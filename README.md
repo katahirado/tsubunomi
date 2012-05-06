@@ -15,7 +15,7 @@ src/jp/katahirado/android/tsubunomi/Const.javaの CONSUMER_KEY と CONSUMER_SECR
 
 使用ライブラリ
 ----------
-[Apache License, Version 2.0][Apache]に基づいてリリースされているTwitter4J,及びtwitter-text-javaを使用しております。  
+[Apache License, Version 2.0][Apache]に基づいてリリースされている[Twitter4J][4j],及び[twitter-text-java][ttj]を使用しております。  
 
 ライセンス
 ----------
@@ -24,3 +24,5 @@ Distributed under the [MIT License][mit].
 
 [Apache]: http://www.apache.org/licenses/LICENSE-2.0]
 [MIT]: http://www.opensource.org/licenses/mit-license.php
+[ttj]: https://github.com/twitter/twitter-text-java
+[4j]: http://twitter4j.org/ja/index.html
