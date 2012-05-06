@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView android:id="@+id/replyText"
+              android:visibility="gone"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"/>
+    <EditText
+            android:id="@+id/tweetText"
+            android:gravity="top|left"
+            android:lines="3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/capButton"
+            android:text="写真撮影"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <Button
+                android:id="@+id/picButton"
+                android:text="写真添付"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <Button
+                android:id="@+id/tweetButton"
+                android:text="つぶやく"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <TextView
+            android:id="@+id/tweetCount"
+            android:text="140"
+            android:textSize="30sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+        <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+</LinearLayout>
+
