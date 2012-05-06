@@ -11,14 +11,11 @@ import twitter4j.auth.AccessToken;
 public class SharedManager {
     private SharedPreferences sharedPreferences;
 
-    private static SharedManager instance = new SharedManager();
 
-    private SharedManager() {
+    public SharedManager(SharedPreferences preferences) {
+        sharedPreferences=preferences;
     }
 
-    public static SharedManager getInstance(){
-        return instance;
-    }
 
     public boolean isConnected() {
         return sharedPreferences.getString(Const.PREF_KEY_TOKEN,null) !=null;
@@ -37,11 +34,6 @@ public class SharedManager {
         editor.remove(Const.PREF_KEY_SECRET);
         editor.commit();
     }
-
-    public void sharedPreferencesInit(SharedPreferences preferences) {
-        sharedPreferences=preferences;
-    }
-
 
     public String getPrefString(String prefKey, String s) {
         return sharedPreferences.getString(prefKey,s);

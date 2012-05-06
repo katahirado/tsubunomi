@@ -64,8 +64,7 @@ public class TsubunomiActivity extends Activity {
 
         tweetButton.setText("つぶやく");
 
-        sharedManager = SharedManager.getInstance();
-        sharedManager.sharedPreferencesInit(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        sharedManager= new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         calculator = new TweetTextCalculator();
 
         tweetButton.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +208,7 @@ public class TsubunomiActivity extends Activity {
     private void checkPreferences() {
         if (sharedManager.isConnected()) {
             connectTwitter();
-            HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask();
+            HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
             helpConfigurationTask.execute(twitter);
 
             tweetButton.setEnabled(true);

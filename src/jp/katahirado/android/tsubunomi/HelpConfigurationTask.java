@@ -12,13 +12,15 @@ import twitter4j.TwitterException;
 public class HelpConfigurationTask extends AsyncTask<Twitter,Void,Void> {
 
 
-    public HelpConfigurationTask() {
+    private SharedManager sharedManager;
+
+    public HelpConfigurationTask(SharedManager manager) {
+        sharedManager=manager;
     }
 
     @Override
     protected Void doInBackground(Twitter... twitters) {
         try{
-            SharedManager sharedManager=SharedManager.getInstance();
             TwitterAPIConfiguration apiConfiguration= twitters[0].getAPIConfiguration();
             sharedManager.setTwitterAPIConfiguration(apiConfiguration);
         }catch (TwitterException e){
