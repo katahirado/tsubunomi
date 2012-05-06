@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import com.twitter.Extractor;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -31,7 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 public class TsubunomiActivity extends Activity {
@@ -49,7 +47,7 @@ public class TsubunomiActivity extends Activity {
     private ImageView thumbnail;
     private SharedManager sharedManager;
     private boolean isAttachment = false;
-    private Extractor extractor;
+    private TweetTextCalculator calculator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,7 @@ public class TsubunomiActivity extends Activity {
 
         sharedManager = SharedManager.getInstance();
         sharedManager.sharedPreferencesInit(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        extractor = new Extractor();
+        calculator = new TweetTextCalculator();
 
         tweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +106,7 @@ public class TsubunomiActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
                 int tCount;
-                int diffCount = calculateShortURLsLength(editable.toString());
+                int diffCount = calculator.calculateShortURLsLength(editable.toString());
                 if (isAttachment) {
                     tCount = Const.TWEET_COUNT_DEFAULT + diffCount -
                             sharedManager.getPrefInt(Const.CHARACTERS_RESERVED_PER_MEDIA, 0) -
@@ -230,36 +228,10 @@ public class TsubunomiActivity extends Activity {
     private void calculateTweetCount() {
         SpannableStringBuilder stringBuilder = (SpannableStringBuilder) tweetText.getText();
         String tText = stringBuilder.toString();
-        int diffCount = calculateShortURLsLength(tText);
+        int diffCount = calculator.calculateShortURLsLength(tText);
         int tweetLength = Const.TWEET_COUNT_DEFAULT + diffCount - tText.length() -
                 sharedManager.getPrefInt(Const.CHARACTERS_RESERVED_PER_MEDIA, 0);
         tweetCount.setText(String.valueOf(tweetLength));
-    }
-
-    private int calculateShortURLsLength(String tText) {
-        List<String> urls = extractor.extractURLs(tText);
-        int diffCount = 0;
-        for (String url : urls) {
-            int shrinkLength;
-            int checkLength;
-            int urlLength = url.length();
-            if (url.indexOf("http://") == 0) {
-                checkLength = shrinkLength = sharedManager.getPrefInt(Const.SHORT_URL_LENGTH, 0);
-            } else if (url.indexOf("https://") == 0) {
-                checkLength = shrinkLength = sharedManager.getPrefInt(Const.SHORT_URL_LENGTH_HTTPS, 0);
-            } else {
-                //プロトコル無しurl
-                shrinkLength = sharedManager.getPrefInt(Const.SHORT_URL_LENGTH, 0);
-                checkLength = shrinkLength - 7;
-            }
-
-            if (urlLength >= checkLength) {
-                diffCount += urlLength - shrinkLength;
-            } else {
-                diffCount -= shrinkLength - urlLength;
-            }
-        }
-        return diffCount;
     }
 
     private int convertAngle(ExifInterface exifInterface) {
