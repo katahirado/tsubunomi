@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -27,6 +28,7 @@ public class SendDMActivity extends Activity {
     private String screenName;
     private Twitter twitter;
     private SharedManager sharedManager;
+    private TextView dmTweetCount;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class SendDMActivity extends Activity {
         sharedManager.sharedPreferencesInit(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
 
         dmText = (EditText) findViewById(R.id.dmText);
+        dmTweetCount = (TextView) findViewById(R.id.dmTweetCount);
         dmButton = (Button) findViewById(R.id.dmButton);
         dmButton.setOnClickListener(new View.OnClickListener() {
             @Override
