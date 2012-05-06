@@ -5,10 +5,10 @@ package jp.katahirado.android.tsubunomi;
  * Author: yuichi_katahira
  */
 public class Const {
-    public static String CONSUMER_KEY = "Your consumer_key here";
-    public static String CONSUMER_SECRET = "Your consumer_key_secret here";
+    public static final String CONSUMER_KEY = "Your consumer_key here";
+    public static final String CONSUMER_SECRET = "Your consumer_key_secret here";
 
-    public static String PREFERENCE_NAME = "twitter_oauth";
+    public static final String PREFERENCE_NAME = "twitter_oauth";
     public static final String PREF_KEY_SECRET = "oauth_token_secret";
     public static final String PREF_KEY_TOKEN = "oauth_token";
 

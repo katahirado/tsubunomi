@@ -38,7 +38,7 @@ public class SendDMActivity extends Activity {
         setContentView(R.layout.senddm);
 
         sharedManager =  new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        calculator = new TweetTextCalculator();
+        calculator = new TweetTextCalculator(sharedManager);
 
         dmTweetCount = (TextView) findViewById(R.id.dmTweetCount);
         dmText = (EditText) findViewById(R.id.dmText);

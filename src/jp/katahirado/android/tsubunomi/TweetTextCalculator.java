@@ -13,9 +13,9 @@ public class TweetTextCalculator {
     private Extractor extractor;
     private SharedManager sharedManager;
 
-    public TweetTextCalculator() {
+    public TweetTextCalculator(SharedManager manager) {
         extractor = new Extractor();
-        sharedManager = SharedManager.getInstance();
+        sharedManager = manager;
     }
 
     public int calculateShortURLsLength(String tText) {

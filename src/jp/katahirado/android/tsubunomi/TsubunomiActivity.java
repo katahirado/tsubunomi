@@ -65,7 +65,7 @@ public class TsubunomiActivity extends Activity {
         tweetButton.setText("つぶやく");
 
         sharedManager= new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        calculator = new TweetTextCalculator();
+        calculator = new TweetTextCalculator(sharedManager);
 
         tweetButton.setOnClickListener(new View.OnClickListener() {
             @Override

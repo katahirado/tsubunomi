@@ -28,7 +28,7 @@ public class OAuthActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauth);
-        sharedManager = SharedManager.getInstance();
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME,MODE_PRIVATE));
 
         button = (Button) findViewById(R.id.oauthButton);
         if(sharedManager.isConnected()){
