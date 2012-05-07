@@ -208,14 +208,21 @@ public class TsubunomiActivity extends Activity {
     private void checkPreferences() {
         if (sharedManager.isConnected()) {
             connectTwitter();
-            HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
-            helpConfigurationTask.execute(twitter);
+            onceDayHelpConfigurationTask();
 
             tweetButton.setEnabled(true);
         } else {
             tweetButton.setEnabled(false);
             //Twitter連携設定が保持されていなかったら連携設定に飛ばす
             goToOAuthActivity();
+        }
+    }
+
+    private void onceDayHelpConfigurationTask() {
+        if(sharedManager.isCheckConfigTime()){
+            HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
+            helpConfigurationTask.execute(twitter);
+            Toast.makeText(this,"helpConfigurationTaskstart",Toast.LENGTH_LONG).show();
         }
     }
 
