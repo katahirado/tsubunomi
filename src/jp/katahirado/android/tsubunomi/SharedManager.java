@@ -1,7 +1,6 @@
 package jp.katahirado.android.tsubunomi;
 
 import android.content.SharedPreferences;
-import android.provider.SyncStateContract;
 import twitter4j.TwitterAPIConfiguration;
 import twitter4j.auth.AccessToken;
 
