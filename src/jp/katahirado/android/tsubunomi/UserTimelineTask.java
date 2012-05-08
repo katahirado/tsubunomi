@@ -3,12 +3,16 @@ package jp.katahirado.android.tsubunomi;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.View;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter>{
+public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter> {
 
     private UserTimelineActivity timelineActivity;
     private TweetListAdapter tweetListAdapter;
@@ -30,7 +34,14 @@ public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter>
 
     @Override
     protected TweetListAdapter doInBackground(String... queryString) {
-        return null;
+        TweetListAdapter adapter=null;
+        List<twitter4j.Status> statuses=null;
+        try {
+            statuses=tweetManager.connectTwitter().getUserTimeline(queryString[0]);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return adapter;
     }
 
     @Override
