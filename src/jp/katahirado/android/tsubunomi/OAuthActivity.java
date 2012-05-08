@@ -28,35 +28,35 @@ public class OAuthActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauth);
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME,MODE_PRIVATE));
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
 
         button = (Button) findViewById(R.id.oauthButton);
-        if(sharedManager.isConnected()){
+        if (sharedManager.isConnected()) {
             button.setText("Disconnect to Twitter");
-        }else{
+        } else {
             button.setText("Connect to Twitter");
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sharedManager.isConnected()){
+                if (sharedManager.isConnected()) {
                     sharedManager.removeOAuth();
                     button.setText("Connect to Twitter");
-                }else{
+                } else {
                     startOAuth();
                 }
             }
         });
 
         Uri uri = getIntent().getData();
-        if(uri !=null && uri.toString().startsWith(Const.CALLBACK_URL)){
+        if (uri != null && uri.toString().startsWith(Const.CALLBACK_URL)) {
             String verifier = uri.getQueryParameter(Const.OAUTH_VERIFIER);
             try {
-                AccessToken accessToken = twitter.getOAuthAccessToken(requestToken,verifier);
+                AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
                 sharedManager.saveOAuth(accessToken);
-                Intent intent = new Intent(this,TsubunomiActivity.class);
+                Intent intent = new Intent(this, TsubunomiActivity.class);
                 startActivity(intent);
-            }catch (TwitterException e){
+            } catch (TwitterException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
@@ -68,11 +68,11 @@ public class OAuthActivity extends Activity {
         configurationBuilder.setOAuthConsumerSecret(Const.CONSUMER_SECRET);
         twitter = new TwitterFactory(configurationBuilder.build()).getInstance();
 
-        try{
+        try {
             requestToken = twitter.getOAuthRequestToken(Const.CALLBACK_URL);
             Toast.makeText(this, "Please authorize this app!", Toast.LENGTH_LONG).show();
-            this.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(requestToken.getAuthenticationURL()+"&force_login=true")));
-        }catch (TwitterException e){
+            this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(requestToken.getAuthenticationURL() + "&force_login=true")));
+        } catch (TwitterException e) {
             e.printStackTrace();
         }
     }

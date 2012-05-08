@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +46,7 @@ public class TsubunomiActivity extends Activity {
     private ImageView thumbnail;
     private SharedManager sharedManager;
     private boolean isAttachment = false;
-    private TweetTextCalculator calculator;
+    private TweetManager tweetManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,8 @@ public class TsubunomiActivity extends Activity {
 
         tweetButton.setText("つぶやく");
 
-        sharedManager= new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        calculator = new TweetTextCalculator(sharedManager);
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        tweetManager = new TweetManager(sharedManager);
 
         tweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +104,7 @@ public class TsubunomiActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
                 int tCount;
-                int diffCount = calculator.calculateShortURLsLength(editable.toString());
+                int diffCount = tweetManager.calculateShortURLsLength(editable.toString());
                 if (isAttachment) {
                     tCount = Const.TWEET_COUNT_DEFAULT + diffCount -
                             sharedManager.getPrefInt(Const.CHARACTERS_RESERVED_PER_MEDIA, 0) -
@@ -207,9 +206,8 @@ public class TsubunomiActivity extends Activity {
 
     private void checkPreferences() {
         if (sharedManager.isConnected()) {
-            connectTwitter();
+            twitter = tweetManager.connectTwitter();
             onceDayHelpConfigurationTask();
-
             tweetButton.setEnabled(true);
         } else {
             tweetButton.setEnabled(false);
@@ -219,10 +217,10 @@ public class TsubunomiActivity extends Activity {
     }
 
     private void onceDayHelpConfigurationTask() {
-        if(sharedManager.isCheckConfigTime()){
+        if (sharedManager.isCheckConfigTime()) {
             HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
             helpConfigurationTask.execute(twitter);
-            Toast.makeText(this,"helpConfigurationTaskstart",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "helpConfigurationTaskstart", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -234,7 +232,7 @@ public class TsubunomiActivity extends Activity {
     private void calculateTweetCount() {
         SpannableStringBuilder stringBuilder = (SpannableStringBuilder) tweetText.getText();
         String tText = stringBuilder.toString();
-        int diffCount = calculator.calculateShortURLsLength(tText);
+        int diffCount = tweetManager.calculateShortURLsLength(tText);
         int tweetLength = Const.TWEET_COUNT_DEFAULT + diffCount - tText.length() -
                 sharedManager.getPrefInt(Const.CHARACTERS_RESERVED_PER_MEDIA, 0);
         tweetCount.setText(String.valueOf(tweetLength));
@@ -372,19 +370,6 @@ public class TsubunomiActivity extends Activity {
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(tweetButton.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         setTitle(getString(R.string.app_name));
-    }
-
-    private void connectTwitter() {
-        String oAuthAccessToken = sharedManager.getPrefString(Const.PREF_KEY_TOKEN, "");
-        String oAuthAccessTokenSecret = sharedManager.getPrefString(Const.PREF_KEY_SECRET, "");
-        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder
-                .setOAuthConsumerKey(Const.CONSUMER_KEY)
-                .setOAuthConsumerSecret(Const.CONSUMER_SECRET)
-                .setOAuthAccessToken(oAuthAccessToken)
-                .setOAuthAccessTokenSecret(oAuthAccessTokenSecret)
-                .setMediaProvider("TWITTER");
-        twitter = new TwitterFactory(configurationBuilder.build()).getInstance();
     }
 
 }
