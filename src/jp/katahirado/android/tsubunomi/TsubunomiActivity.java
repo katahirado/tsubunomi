@@ -191,7 +191,7 @@ public class TsubunomiActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.oauth, menu);
+        menuInflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
