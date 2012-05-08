@@ -31,11 +31,7 @@ public class OAuthActivity extends Activity {
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
 
         button = (Button) findViewById(R.id.oauthButton);
-        if (sharedManager.isConnected()) {
-            button.setText("Disconnect to Twitter");
-        } else {
-            button.setText("Connect to Twitter");
-        }
+        changeButtonState();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +55,21 @@ public class OAuthActivity extends Activity {
             } catch (TwitterException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();    //To change body of overridden methods use File | Settings | File Templates.
+        changeButtonState();
+    }
+
+    private void changeButtonState() {
+        if (sharedManager.isConnected()) {
+            button.setText("Disconnect to Twitter");
+        } else {
+            button.setText("Connect to Twitter");
         }
     }
 
