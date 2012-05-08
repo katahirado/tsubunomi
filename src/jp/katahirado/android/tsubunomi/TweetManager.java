@@ -1,6 +1,9 @@
 package jp.katahirado.android.tsubunomi;
 
 import com.twitter.Extractor;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.List;
 
@@ -8,14 +11,27 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class TweetTextCalculator {
+public class TweetManager {
 
     private Extractor extractor;
     private SharedManager sharedManager;
 
-    public TweetTextCalculator(SharedManager manager) {
+    public TweetManager(SharedManager manager) {
         extractor = new Extractor();
         sharedManager = manager;
+    }
+
+    public Twitter connectTwitter() {
+        String oAuthAccessToken = sharedManager.getPrefString(Const.PREF_KEY_TOKEN, "");
+        String oAuthAccessTokenSecret = sharedManager.getPrefString(Const.PREF_KEY_SECRET, "");
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder
+                .setOAuthConsumerKey(Const.CONSUMER_KEY)
+                .setOAuthConsumerSecret(Const.CONSUMER_SECRET)
+                .setOAuthAccessToken(oAuthAccessToken)
+                .setOAuthAccessTokenSecret(oAuthAccessTokenSecret)
+                .setMediaProvider("TWITTER");
+        return new TwitterFactory(configurationBuilder.build()).getInstance();
     }
 
     public int calculateShortURLsLength(String tText) {
