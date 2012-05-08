@@ -24,6 +24,12 @@ public class TweetListAdapter extends ArrayAdapter<Status>{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+        View view = convertView;
+
+        if(convertView==null){
+            view= layoutInflater.inflate(R.layout.tweet_row,null);
+        }
+
+        return view;
     }
 }
