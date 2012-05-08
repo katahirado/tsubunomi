@@ -4,4 +4,7 @@
     <item android:id="@+id/menu_oauth"
           android:title="Go to OAuth"
             android:icon="@android:drawable/ic_menu_preferences"/>
+    <item android:id="@+id/menu_user_timeline"
+          android:title="userTimeline"
+          android:icon="@android:drawable/ic_menu_search"/>
 </menu>
