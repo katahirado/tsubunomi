@@ -220,7 +220,6 @@ public class TsubunomiActivity extends Activity {
         if (sharedManager.isCheckConfigTime()) {
             HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
             helpConfigurationTask.execute(twitter);
-            Toast.makeText(this, "helpConfigurationTaskstart", Toast.LENGTH_LONG).show();
         }
     }
 
