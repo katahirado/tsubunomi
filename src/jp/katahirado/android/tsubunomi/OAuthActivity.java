@@ -61,7 +61,7 @@ public class OAuthActivity extends Activity {
 
     @Override
     protected void onRestart() {
-        super.onRestart();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onRestart();
         changeButtonState();
     }
 

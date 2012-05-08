@@ -41,5 +41,6 @@
                 <data android:scheme="https" android:host="twitter.com" android:pathPrefix="/direct_messages/create"/>
             </intent-filter>
         </activity>
+        <activity android:name=".UserTimelineActivity"/>
     </application>
 </manifest>
