@@ -11,7 +11,7 @@ import twitter4j.TwitterException;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class TweetPostTask extends AsyncTask<StatusUpdate,Void,Boolean> {
+public class TweetPostTask extends AsyncTask<StatusUpdate, Void, Boolean> {
 
     private TsubunomiActivity mActivity;
     private Twitter mTwitter;
@@ -32,12 +32,12 @@ public class TweetPostTask extends AsyncTask<StatusUpdate,Void,Boolean> {
     @Override
     protected Boolean doInBackground(StatusUpdate... statusUpdates) {
         Boolean succeed;
-        try{
+        try {
             mTwitter.updateStatus(statusUpdates[0]);
-            succeed=true;
-        }catch (TwitterException e){
+            succeed = true;
+        } catch (TwitterException e) {
             e.printStackTrace();
-            succeed=false;
+            succeed = false;
         }
         return succeed;
     }
@@ -45,8 +45,8 @@ public class TweetPostTask extends AsyncTask<StatusUpdate,Void,Boolean> {
     @Override
     protected void onPostExecute(Boolean succeed) {
         progressDialog.dismiss();
-        if(succeed){
-            Toast.makeText(mActivity,"投稿しました",Toast.LENGTH_LONG).show();
+        if (succeed) {
+            Toast.makeText(mActivity, "投稿しました", Toast.LENGTH_LONG).show();
         }
         mActivity.afterPostResetView();
     }

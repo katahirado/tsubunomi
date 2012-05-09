@@ -10,7 +10,7 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter> {
+public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapter> {
 
     private UserTimelineActivity timelineActivity;
     private TweetListAdapter tweetListAdapter;
@@ -20,7 +20,7 @@ public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter>
     public UserTimelineTask(UserTimelineActivity activity, TweetManager manager, TweetListAdapter adapter) {
         timelineActivity = activity;
         tweetListAdapter = adapter;
-        tweetManager= manager;
+        tweetManager = manager;
     }
 
     @Override
@@ -32,13 +32,13 @@ public class UserTimelineTask extends AsyncTask<String,Integer,TweetListAdapter>
 
     @Override
     protected TweetListAdapter doInBackground(String... queryString) {
-        List<twitter4j.Status> statuses=null;
+        List<twitter4j.Status> statuses = null;
         try {
-            statuses=tweetManager.connectTwitter().getUserTimeline(queryString[0]);
+            statuses = tweetManager.connectTwitter().getUserTimeline(queryString[0]);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        for (twitter4j.Status status:statuses){
+        for (twitter4j.Status status : statuses) {
             tweetListAdapter.add(status);
         }
         return tweetListAdapter;

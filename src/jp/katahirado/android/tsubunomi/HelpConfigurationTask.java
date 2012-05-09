@@ -9,21 +9,21 @@ import twitter4j.TwitterException;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class HelpConfigurationTask extends AsyncTask<Twitter,Void,Void> {
+public class HelpConfigurationTask extends AsyncTask<Twitter, Void, Void> {
 
 
     private SharedManager sharedManager;
 
     public HelpConfigurationTask(SharedManager manager) {
-        sharedManager=manager;
+        sharedManager = manager;
     }
 
     @Override
     protected Void doInBackground(Twitter... twitters) {
-        try{
-            TwitterAPIConfiguration apiConfiguration= twitters[0].getAPIConfiguration();
+        try {
+            TwitterAPIConfiguration apiConfiguration = twitters[0].getAPIConfiguration();
             sharedManager.setTwitterAPIConfiguration(apiConfiguration);
-        }catch (TwitterException e){
+        } catch (TwitterException e) {
             e.printStackTrace();
         }
         return null;
