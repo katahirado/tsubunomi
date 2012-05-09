@@ -1,4 +1,4 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
+import jp.katahirado.android.tsubunomi.activity.OAuthActivity;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 

@@ -1,7 +1,10 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import jp.katahirado.android.tsubunomi.TweetListAdapter;
+import jp.katahirado.android.tsubunomi.TweetManager;
+import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
 import twitter4j.TwitterException;
 
 import java.util.List;

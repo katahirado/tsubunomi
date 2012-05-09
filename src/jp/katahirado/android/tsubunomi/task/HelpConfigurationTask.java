@@ -1,6 +1,7 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.task;
 
 import android.os.AsyncTask;
+import jp.katahirado.android.tsubunomi.SharedManager;
 import twitter4j.Twitter;
 import twitter4j.TwitterAPIConfiguration;
 import twitter4j.TwitterException;

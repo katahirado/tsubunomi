@@ -1,4 +1,4 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -25,6 +25,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.task.HelpConfigurationTask;
+import jp.katahirado.android.tsubunomi.task.TweetPostTask;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;

@@ -1,4 +1,4 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
 
 import java.util.ArrayList;

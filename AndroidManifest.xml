@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:label="@string/app_name">
-        <activity android:name="TsubunomiActivity"
+        <activity android:name=".activity.TsubunomiActivity"
                   android:theme="@android:style/Theme.Light"
                   android:label="@string/app_name">
             <intent-filter>
@@ -21,7 +21,7 @@
                 <data android:scheme="https" android:host="twitter.com" android:pathPrefix="/home"/>
             </intent-filter>
         </activity>
-        <activity android:name=".OAuthActivity"
+        <activity android:name=".activity.OAuthActivity"
                   android:theme="@android:style/Theme.Light"
                 >
             <intent-filter>
@@ -31,7 +31,7 @@
                 <data android:scheme="oauth" android:host="katahirado"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SendDMActivity"
+        <activity android:name=".activity.SendDMActivity"
             android:theme="@android:style/Theme.Light"
             >
             <intent-filter>
@@ -41,6 +41,6 @@
                 <data android:scheme="https" android:host="twitter.com" android:pathPrefix="/direct_messages/create"/>
             </intent-filter>
         </activity>
-        <activity android:name=".UserTimelineActivity"/>
+        <activity android:name=".activity.UserTimelineActivity"/>
     </application>
 </manifest>

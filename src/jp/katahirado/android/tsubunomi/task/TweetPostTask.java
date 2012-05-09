@@ -1,8 +1,9 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
