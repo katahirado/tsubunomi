@@ -48,7 +48,9 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
             case R.id.search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
                 String query = builder.toString();
-
+                if(query.length()==0){
+                    return;
+                }
                 ArrayList<Status> tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
                 UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
