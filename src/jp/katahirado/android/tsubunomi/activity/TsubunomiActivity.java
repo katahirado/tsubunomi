@@ -137,7 +137,7 @@ public class TsubunomiActivity extends Activity {
         intent = getIntent();
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
-            Uri uri = getIntent().getData();
+            Uri uri = intent.getData();
             if (uri != null) {
                 String screenName = uri.getQueryParameter("screen_name");
                 setTitle(getString(R.string.app_name) + " : " + screenName + "に返信");
@@ -156,8 +156,14 @@ public class TsubunomiActivity extends Activity {
                 tweetText.setSelection(mentionString.length());
             }
         } else if (Intent.ACTION_SEND.equals(action)) {
-            String urlString = getIntent().getExtras().getCharSequence(Intent.EXTRA_TEXT).toString();
-            tweetText.setText(urlString);
+            CharSequence text = intent.getExtras().getCharSequence(Intent.EXTRA_TEXT);
+            if (text != null) {
+                tweetText.setText(text);
+            }
+            Uri stream = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (stream != null) {
+                attachementAndCalculateTweetCount(stream);
+            }
         }
     }
 
@@ -195,9 +201,7 @@ public class TsubunomiActivity extends Activity {
                 }
                 break;
             case GALLERY_REQUEST_CODE:
-                searchMediaFileData(data.getData());
-                isAttachment = true;
-                calculateTweetCount();
+                attachementAndCalculateTweetCount(data.getData());
                 break;
         }
     }
@@ -246,6 +250,12 @@ public class TsubunomiActivity extends Activity {
     private void goToOAuthActivity() {
         intent = new Intent(this, OAuthActivity.class);
         startActivity(intent);
+    }
+
+    private void attachementAndCalculateTweetCount(Uri uri) {
+        searchMediaFileData(uri);
+        isAttachment = true;
+        calculateTweetCount();
     }
 
     private void calculateTweetCount() {
