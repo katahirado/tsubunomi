@@ -15,25 +15,25 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class UserTimelineActivity extends Activity implements View.OnClickListener{
+public class UserTimelineActivity extends Activity implements View.OnClickListener {
     private EditText screenNameText;
     private ListView listView;
-    private ArrayList<Status> tweetList;
-    private TweetListAdapter tweetListAdapter;
     private SharedManager sharedManager;
     private TweetManager tweetManager;
+    private Button searchButton;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.usertimeline);
 
-        screenNameText = (EditText) findViewById(R.id.screen_name_text);
+
         listView = (ListView) findViewById(R.id.tweet_list);
-        tweetList = new ArrayList<Status>();
-        tweetListAdapter = new TweetListAdapter(this,tweetList);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
 
+        screenNameText = (EditText) findViewById(R.id.screen_name_text);
+        searchButton = (Button) findViewById(R.id.search_button);
+        searchButton.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +43,8 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
                 String query = builder.toString();
 
+                ArrayList<Status> tweetList = new ArrayList<Status>();
+                TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
                 UserTimelineTask task = new UserTimelineTask(this,tweetManager,tweetListAdapter);
                 task.execute(query);
                 break;
@@ -51,6 +53,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
 
     public void setTimelineListAdapter(TweetListAdapter adapter){
         listView.setAdapter(adapter);
+        screenNameText.setText("");
     }
 
 }
