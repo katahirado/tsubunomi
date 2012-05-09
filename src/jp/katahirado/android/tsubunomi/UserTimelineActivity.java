@@ -1,9 +1,11 @@
 package jp.katahirado.android.tsubunomi;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,21 +40,23 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
                 String query = builder.toString();
 
                 ArrayList<Status> tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
-                UserTimelineTask task = new UserTimelineTask(this,tweetManager,tweetListAdapter);
+                UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
                 task.execute(query);
                 break;
         }
     }
 
-    public void setTimelineListAdapter(TweetListAdapter adapter){
+    public void setTimelineListAdapter(TweetListAdapter adapter) {
         listView.setAdapter(adapter);
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(screenNameText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         screenNameText.setText("");
     }
 
