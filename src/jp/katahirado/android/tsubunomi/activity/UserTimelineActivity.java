@@ -1,17 +1,18 @@
 package jp.katahirado.android.tsubunomi.activity;
 
+import android.*;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
 
@@ -22,12 +23,13 @@ import java.util.ArrayList;
  * Author: yuichi_katahira
  */
 public class UserTimelineActivity extends Activity implements View.OnClickListener {
-    private EditText screenNameText;
+    private AutoCompleteTextView screenNameText;
     private ListView listView;
     private SharedManager sharedManager;
     private TweetManager tweetManager;
     private Button searchButton;
     private InputFilter[] inputFilters = {new InnerFilter()};
+    private ArrayAdapter<String> adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +39,12 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         listView = (ListView) findViewById(R.id.tweet_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line);
 
-        screenNameText = (EditText) findViewById(R.id.screen_name_text);
+        screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
+        screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
     }
 
@@ -53,6 +57,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 if (query.length() == 0) {
                     return;
                 }
+                adapter.add(query);
                 ArrayList<Status> tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
                 UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
