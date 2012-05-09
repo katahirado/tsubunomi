@@ -25,7 +25,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.task.HelpConfigurationTask;
 import jp.katahirado.android.tsubunomi.task.TweetPostTask;
 import twitter4j.Status;
@@ -56,6 +59,7 @@ public class TsubunomiActivity extends Activity {
     private SharedManager sharedManager;
     private boolean isAttachment = false;
     private TweetManager tweetManager;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +155,9 @@ public class TsubunomiActivity extends Activity {
                 //位置を調整する
                 tweetText.setSelection(mentionString.length());
             }
+        } else if (Intent.ACTION_SEND.equals(action)) {
+            String urlString = getIntent().getExtras().getCharSequence(Intent.EXTRA_TEXT).toString();
+            tweetText.setText(urlString);
         }
     }
 
