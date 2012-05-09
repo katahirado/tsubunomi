@@ -162,7 +162,7 @@ public class TsubunomiActivity extends Activity {
             }
             Uri stream = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (stream != null) {
-                attachementAndCalculateTweetCount(stream);
+                attachmentAndCalculateTweetCount(stream);
             }
         }
     }
@@ -201,7 +201,7 @@ public class TsubunomiActivity extends Activity {
                 }
                 break;
             case GALLERY_REQUEST_CODE:
-                attachementAndCalculateTweetCount(data.getData());
+                attachmentAndCalculateTweetCount(data.getData());
                 break;
         }
     }
@@ -252,7 +252,7 @@ public class TsubunomiActivity extends Activity {
         startActivity(intent);
     }
 
-    private void attachementAndCalculateTweetCount(Uri uri) {
+    private void attachmentAndCalculateTweetCount(Uri uri) {
         searchMediaFileData(uri);
         isAttachment = true;
         calculateTweetCount();
