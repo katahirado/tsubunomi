@@ -3,7 +3,9 @@ package jp.katahirado.android.tsubunomi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -23,6 +25,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private SharedManager sharedManager;
     private TweetManager tweetManager;
     private Button searchButton;
+    private InputFilter[] inputFilters = {new InnerFilter()};
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         screenNameText = (EditText) findViewById(R.id.screen_name_text);
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
+        screenNameText.setFilters(inputFilters);
     }
 
     @Override
@@ -60,4 +64,14 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         screenNameText.setText("");
     }
 
+    private class InnerFilter implements InputFilter {
+        @Override
+        public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
+            if (charSequence.toString().matches("^[a-zA-Z0-9_]+$")) {
+                return charSequence;
+            } else {
+                return "";
+            }
+        }
+    }
 }

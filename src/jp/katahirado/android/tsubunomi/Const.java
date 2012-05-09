@@ -19,7 +19,7 @@ public class Const {
     public static final int TWEET_COUNT_DEFAULT = 140;
 
     public static final String CHECK_CONFIG_MILLI_SECOND = "check_config_milli_second";
-    public static final String CHARACTERS_RESERVED_PER_MEDIA  ="characters_reserved_per_media";
+    public static final String CHARACTERS_RESERVED_PER_MEDIA = "characters_reserved_per_media";
     public static final String SHORT_URL_LENGTH = "short_url_length";
     public static final String SHORT_URL_LENGTH_HTTPS = "short_url_length_https";
     public static final String MAX_MEDIA_PER_UPLOAD = "max_media_per_upload";
