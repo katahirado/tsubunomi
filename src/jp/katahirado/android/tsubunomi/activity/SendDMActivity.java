@@ -99,7 +99,7 @@ public class SendDMActivity extends Activity {
         String dmString = spannableStringBuilder.toString();
         try {
             twitter.sendDirectMessage(screenName, dmString);
-            Toast.makeText(this, "送信しました", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "送信しました", Toast.LENGTH_LONG).show();
         } catch (TwitterException e) {
             e.printStackTrace();
         } finally {
