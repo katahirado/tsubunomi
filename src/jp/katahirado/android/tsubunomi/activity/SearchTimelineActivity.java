@@ -24,9 +24,7 @@ import java.util.ArrayList;
 public class SearchTimelineActivity extends Activity implements View.OnClickListener {
     private AutoCompleteTextView searchText;
     private ListView listView;
-    private SharedManager sharedManager;
     private TweetManager tweetManager;
-    private Button searchButton;
     private ArrayAdapter<String> adapter;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -36,12 +34,12 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
 
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
         searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
-        searchButton = (Button) findViewById(R.id.search_button);
+        Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
         searchText.setAdapter(adapter);
     }
@@ -72,7 +70,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
             lang = queryParams[1].split("=")[1];
         }
         q.setQuery(queryParams[0]);
-        if (lang != "") {
+        if (!lang.equals("")) {
             q.setLang(lang);
         }
         return q;

@@ -10,6 +10,8 @@ import twitter4j.QueryResult;
 import twitter4j.Tweet;
 import twitter4j.TwitterException;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
@@ -38,15 +40,16 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
 
     @Override
     protected SearchListAdapter doInBackground(Query... query) {
-        QueryResult queryResult = null;
+        List<Tweet> tweets = null;
         try {
-            queryResult = tweetManager.connectTwitter().search(query[0]);
+            QueryResult queryResult = tweetManager.connectTwitter().search(query[0]);
             queryString = query[0].getQuery();
+            tweets = queryResult.getTweets();
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        if (queryResult.getTweets() != null) {
-            for (Tweet tweet : queryResult.getTweets()) {
+        if (tweets != null) {
+            for (Tweet tweet : tweets) {
                 searchListAdapter.add(tweet);
             }
         }

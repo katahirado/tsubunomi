@@ -18,7 +18,6 @@ import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
-import jp.katahirado.android.tsubunomi.activity.OAuthActivity;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
@@ -31,7 +30,6 @@ public class SendDMActivity extends Activity {
     private Button dmButton;
     private String screenName;
     private Twitter twitter;
-    private SharedManager sharedManager;
     private TextView dmTweetCount;
     private TweetManager tweetManager;
 
@@ -39,7 +37,7 @@ public class SendDMActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.senddm);
 
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
 
         dmTweetCount = (TextView) findViewById(R.id.dmTweetCount);

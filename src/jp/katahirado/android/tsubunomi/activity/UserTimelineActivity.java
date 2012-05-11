@@ -25,9 +25,7 @@ import java.util.ArrayList;
 public class UserTimelineActivity extends Activity implements View.OnClickListener {
     private AutoCompleteTextView screenNameText;
     private ListView listView;
-    private SharedManager sharedManager;
     private TweetManager tweetManager;
-    private Button uSearchButton;
     private InputFilter[] inputFilters = {new InnerFilter()};
     private ArrayAdapter<String> adapter;
 
@@ -38,12 +36,12 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
 
         setTitle(getString(R.string.app_name)+" : User");
         listView = (ListView) findViewById(R.id.tweet_list);
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
-        uSearchButton = (Button) findViewById(R.id.u_search_button);
+        Button uSearchButton = (Button) findViewById(R.id.u_search_button);
         uSearchButton.setOnClickListener(this);
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
