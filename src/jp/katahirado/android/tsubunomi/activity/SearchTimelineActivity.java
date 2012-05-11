@@ -34,7 +34,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         setContentView(R.layout.searchtimeline);
 
 
-        setTitle(getString(R.string.app_name)+" : Search");
+        setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
@@ -59,16 +59,30 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
                 ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
                 SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
                 SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
-                task.execute(new Query(query));
+                task.execute(buildQuery(query));
                 break;
         }
     }
 
-    public void setSearchListAdapter(SearchListAdapter adapter,String query) {
+    private Query buildQuery(String query) {
+        Query q = new Query();
+        String lang = "";
+        String[] queryParams = query.split("&");
+        if (queryParams.length > 1 && queryParams[1].startsWith("lang")) {
+            lang = queryParams[1].split("=")[1];
+        }
+        q.setQuery(queryParams[0]);
+        if (lang != "") {
+            q.setLang(lang);
+        }
+        return q;
+    }
+
+    public void setSearchListAdapter(SearchListAdapter adapter, String query) {
         listView.setAdapter(adapter);
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         searchText.setText("");
-        setTitle(getString(R.string.app_name)+" : Search : "+query);
+        setTitle(getString(R.string.app_name) + " : Search : " + query);
     }
 }
