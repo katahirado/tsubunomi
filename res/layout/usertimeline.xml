@@ -12,7 +12,7 @@
                   android:textColor="@android:color/black"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"/>
-        <Button android:id="@+id/search_button"
+        <Button android:id="@+id/u_search_button"
                      android:text="検索"
                      android:layout_height="wrap_content"
                      android:layout_width="wrap_content"/>
