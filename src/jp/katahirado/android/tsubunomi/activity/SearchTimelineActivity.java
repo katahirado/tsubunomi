@@ -34,6 +34,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         setContentView(R.layout.searchtimeline);
 
 
+        setTitle(getString(R.string.app_name)+" : Search");
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);

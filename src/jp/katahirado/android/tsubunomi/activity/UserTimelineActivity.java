@@ -36,6 +36,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.usertimeline);
 
 
+        setTitle(getString(R.string.app_name)+" : User");
         listView = (ListView) findViewById(R.id.tweet_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
