@@ -2,9 +2,12 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_user_timeline"
-          android:title="userTimeline"
+          android:title="UserTimeline"
+          android:icon="@android:drawable/ic_menu_search"/>
+    <item android:id="@+id/menu_search"
+          android:title="Search"
           android:icon="@android:drawable/ic_menu_search"/>
     <item android:id="@+id/menu_oauth"
           android:title="Go to OAuth"
-            android:icon="@android:drawable/ic_menu_preferences"/>
+          android:icon="@android:drawable/ic_menu_preferences"/>
 </menu>
