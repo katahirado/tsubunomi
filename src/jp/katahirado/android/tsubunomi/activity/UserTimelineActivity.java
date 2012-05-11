@@ -1,18 +1,18 @@
 package jp.katahirado.android.tsubunomi.activity;
 
-import android.*;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
 import jp.katahirado.android.tsubunomi.*;
-import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
 
@@ -27,7 +27,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private ListView listView;
     private SharedManager sharedManager;
     private TweetManager tweetManager;
-    private Button searchButton;
+    private Button uSearchButton;
     private InputFilter[] inputFilters = {new InnerFilter()};
     private ArrayAdapter<String> adapter;
 
@@ -39,11 +39,11 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         listView = (ListView) findViewById(R.id.tweet_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
-        searchButton = (Button) findViewById(R.id.search_button);
-        searchButton.setOnClickListener(this);
+        uSearchButton = (Button) findViewById(R.id.u_search_button);
+        uSearchButton.setOnClickListener(this);
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
     }
@@ -51,7 +51,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.search_button:
+            case R.id.u_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
                 String query = builder.toString();
                 if (query.length() == 0) {
