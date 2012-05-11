@@ -67,11 +67,12 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         }
     }
 
-    public void setTimelineListAdapter(TweetListAdapter adapter) {
+    public void setTimelineListAdapter(TweetListAdapter adapter,String name) {
         listView.setAdapter(adapter);
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(screenNameText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         screenNameText.setText("");
+        setTitle(getString(R.string.app_name)+" : User : "+name);
     }
 
     private class InnerFilter implements InputFilter {

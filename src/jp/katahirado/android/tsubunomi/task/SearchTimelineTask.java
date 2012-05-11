@@ -20,6 +20,7 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
     private SearchListAdapter searchListAdapter;
     private SearchTimelineActivity searchActivity;
     private ProgressDialog dialog;
+    private String queryString;
 
     public SearchTimelineTask(SearchTimelineActivity activity, TweetManager manager, SearchListAdapter adapter) {
         searchActivity = activity;
@@ -40,6 +41,7 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
         QueryResult queryResult = null;
         try {
             queryResult = tweetManager.connectTwitter().search(query[0]);
+            queryString = query[0].getQuery();
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -54,6 +56,6 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
     @Override
     protected void onPostExecute(SearchListAdapter adapter) {
         dialog.dismiss();
-        searchActivity.setSearchListAdapter(adapter);
+        searchActivity.setSearchListAdapter(adapter,queryString);
     }
 }

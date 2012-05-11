@@ -64,10 +64,11 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         }
     }
 
-    public void setSearchListAdapter(SearchListAdapter adapter) {
+    public void setSearchListAdapter(SearchListAdapter adapter,String query) {
         listView.setAdapter(adapter);
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         searchText.setText("");
+        setTitle(getString(R.string.app_name)+" : Search : "+query);
     }
 }

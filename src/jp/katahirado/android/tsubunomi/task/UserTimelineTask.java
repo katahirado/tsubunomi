@@ -19,6 +19,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     private TweetListAdapter tweetListAdapter;
     private ProgressDialog dialog;
     private TweetManager tweetManager;
+    private String query;
 
     public UserTimelineTask(UserTimelineActivity activity, TweetManager manager, TweetListAdapter adapter) {
         timelineActivity = activity;
@@ -38,6 +39,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
         List<twitter4j.Status> statuses = null;
         try {
             statuses = tweetManager.connectTwitter().getUserTimeline(queryString[0]);
+            query = queryString[0];
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -52,6 +54,6 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     @Override
     protected void onPostExecute(TweetListAdapter adapter) {
         dialog.dismiss();
-        timelineActivity.setTimelineListAdapter(adapter);
+        timelineActivity.setTimelineListAdapter(adapter,query);
     }
 }
