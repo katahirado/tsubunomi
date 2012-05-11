@@ -41,7 +41,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        if(statuses!=null){
+        if (statuses != null) {
             for (twitter4j.Status status : statuses) {
                 tweetListAdapter.add(status);
             }

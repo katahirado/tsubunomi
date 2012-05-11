@@ -220,6 +220,10 @@ public class TsubunomiActivity extends Activity {
             case R.id.menu_oauth:
                 goToOAuthActivity();
                 break;
+            case R.id.menu_search:
+                intent = new Intent(this, SearchTimelineActivity.class);
+                startActivity(intent);
+                break;
             case R.id.menu_user_timeline:
                 intent = new Intent(this, UserTimelineActivity.class);
                 startActivity(intent);
