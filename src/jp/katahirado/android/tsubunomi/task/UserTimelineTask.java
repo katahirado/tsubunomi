@@ -19,7 +19,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     private TweetListAdapter tweetListAdapter;
     private ProgressDialog dialog;
     private TweetManager tweetManager;
-    private String query;
+    private String query="";
 
     public UserTimelineTask(UserTimelineActivity activity, TweetManager manager, TweetListAdapter adapter) {
         timelineActivity = activity;
