@@ -8,7 +8,7 @@ public class Const {
     public static final String CONSUMER_KEY = "Your consumer_key here";
     public static final String CONSUMER_SECRET = "Your consumer_key_secret here";
 
-    public static final String PREFERENCE_NAME = "twitter_oauth";
+    public static final String PREFERENCE_NAME = "tsubunomi_preference";
     public static final String PREF_KEY_SECRET = "oauth_token_secret";
     public static final String PREF_KEY_TOKEN = "oauth_token";
 
@@ -24,4 +24,6 @@ public class Const {
     public static final String SHORT_URL_LENGTH_HTTPS = "short_url_length_https";
     public static final String MAX_MEDIA_PER_UPLOAD = "max_media_per_upload";
     public static final String PHOTO_SIZE_LIMIT = "photo_size_limit";
+
+    public static final String SCREEN_NAMES = "screen_names";
 }
