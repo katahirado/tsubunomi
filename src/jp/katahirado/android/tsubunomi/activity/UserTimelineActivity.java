@@ -8,7 +8,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
 import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
@@ -31,7 +34,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.usertimeline);
 
 
-        setTitle(getString(R.string.app_name)+" : User");
+        setTitle(getString(R.string.app_name) + " : User");
         listView = (ListView) findViewById(R.id.tweet_list);
         SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
@@ -53,7 +56,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 if (query.length() == 0) {
                     return;
                 }
-                if(adapter.getPosition(query)==-1){
+                if (adapter.getPosition(query) == -1) {
                     adapter.add(query);
                 }
                 ArrayList<Status> tweetList = new ArrayList<Status>();
@@ -64,12 +67,12 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         }
     }
 
-    public void setTimelineListAdapter(TweetListAdapter adapter,String name) {
+    public void setTimelineListAdapter(TweetListAdapter adapter, String name) {
         listView.setAdapter(adapter);
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(screenNameText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         screenNameText.setText("");
-        setTitle(getString(R.string.app_name)+" : User : "+name);
+        setTitle(getString(R.string.app_name) + " : User : " + name);
     }
 
     private class InnerFilter implements InputFilter {
