@@ -28,6 +28,8 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private TweetManager tweetManager;
     private InputFilter[] inputFilters = {new InnerFilter()};
     private ArrayAdapter<String> adapter;
+    private ArrayList<String> screenNames;
+    private SharedManager sharedManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +38,10 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
 
         setTitle(getString(R.string.app_name) + " : User");
         listView = (ListView) findViewById(R.id.tweet_list);
-        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+        screenNames = sharedManager.getScreenNames();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
 
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
         Button uSearchButton = (Button) findViewById(R.id.u_search_button);
@@ -58,6 +61,8 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 }
                 if (adapter.getPosition(query) == -1) {
                     adapter.add(query);
+                    screenNames.add(query);
+                    sharedManager.setScreenNames(screenNames);
                 }
                 ArrayList<Status> tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);

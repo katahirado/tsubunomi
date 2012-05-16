@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import twitter4j.TwitterAPIConfiguration;
 import twitter4j.auth.AccessToken;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ public class SharedManager {
 
 
     public boolean isConnected() {
-        return sharedPreferences.getString(Const.PREF_KEY_TOKEN, null) != null;
+        return getPrefString(Const.PREF_KEY_TOKEN, null) != null;
     }
 
     public void saveOAuth(AccessToken accessToken) {
@@ -36,14 +37,6 @@ public class SharedManager {
         editor.remove(Const.PREF_KEY_TOKEN);
         editor.remove(Const.PREF_KEY_SECRET);
         editor.commit();
-    }
-
-    public String getPrefString(String prefKey, String s) {
-        return sharedPreferences.getString(prefKey, s);
-    }
-
-    public int getPrefInt(String prefKey, int i) {
-        return sharedPreferences.getInt(prefKey, i);
     }
 
     public void setTwitterAPIConfiguration(TwitterAPIConfiguration configuration) {
@@ -71,4 +64,32 @@ public class SharedManager {
         }
         return result;
     }
+
+    public ArrayList<String> getScreenNames() {
+        ArrayList<String> names = new ArrayList<String>();
+        if (getPrefString(Const.SCREEN_NAMES, null) != null) {
+            String[] stringArray = getPrefString(Const.SCREEN_NAMES, null).split(",");
+            for (String s : stringArray) {
+                names.add(s.trim());
+            }
+        }
+        return names;
+    }
+
+    public void setScreenNames(ArrayList<String> list) {
+        String listString = list.toString();
+        String saveString = listString.substring(1, listString.length() - 1);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Const.SCREEN_NAMES, saveString);
+        editor.commit();
+    }
+
+    public String getPrefString(String prefKey, String s) {
+        return sharedPreferences.getString(prefKey, s);
+    }
+
+    public int getPrefInt(String prefKey, int i) {
+        return sharedPreferences.getInt(prefKey, i);
+    }
+
 }
