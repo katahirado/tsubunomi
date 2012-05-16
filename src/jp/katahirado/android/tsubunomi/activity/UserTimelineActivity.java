@@ -8,10 +8,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
@@ -56,7 +53,9 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 if (query.length() == 0) {
                     return;
                 }
-                adapter.add(query);
+                if(adapter.getPosition(query)==-1){
+                    adapter.add(query);
+                }
                 ArrayList<Status> tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
                 UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
