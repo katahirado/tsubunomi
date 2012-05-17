@@ -44,5 +44,29 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:gravity="bottom"
+                  android:layout_height="fill_parent">
+        <Button
+                android:id="@+id/uTimeButton"
+                android:text="UserTimeline"
+                android:layout_margin="4dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <Button
+                android:id="@+id/sButton"
+                android:text="Search"
+                android:layout_margin="4dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <Button
+                android:id="@+id/goToOAuthButton"
+                android:text="Go to OAuth"
+                android:layout_margin="4dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+    </LinearLayout>
 </LinearLayout>
 

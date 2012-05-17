@@ -73,6 +73,9 @@ public class TsubunomiActivity extends Activity {
         replyText = (TextView) findViewById(R.id.replyText);
         tweetCount = (TextView) findViewById(R.id.tweetCount);
         thumbnail = (ImageView) findViewById(R.id.thumbnail);
+        Button userTimelineButton = (Button) findViewById(R.id.uTimeButton);
+        Button searchButton = (Button) findViewById(R.id.sButton);
+        Button goToOAuthButton = (Button) findViewById(R.id.goToOAuthButton);
 
         tweetButton.setText("つぶやく");
 
@@ -129,6 +132,27 @@ public class TsubunomiActivity extends Activity {
                 tweetCount.setText(String.valueOf(tCount));
                 InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 manager.hideSoftInputFromWindow(tweetText.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        });
+
+        userTimelineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserTimelineActivity();
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSearchActivity();
+            }
+        });
+
+        goToOAuthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToOAuthActivity();
             }
         });
 
@@ -217,16 +241,14 @@ public class TsubunomiActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_user_timeline:
+                goToUserTimelineActivity();
+                break;
             case R.id.menu_oauth:
                 goToOAuthActivity();
                 break;
             case R.id.menu_search:
-                intent = new Intent(this, SearchTimelineActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_user_timeline:
-                intent = new Intent(this, UserTimelineActivity.class);
-                startActivity(intent);
+                goToSearchActivity();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -251,8 +273,18 @@ public class TsubunomiActivity extends Activity {
         }
     }
 
+    private void goToUserTimelineActivity() {
+        intent = new Intent(this, UserTimelineActivity.class);
+        startActivity(intent);
+    }
+
     private void goToOAuthActivity() {
         intent = new Intent(this, OAuthActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToSearchActivity() {
+        intent = new Intent(this, SearchTimelineActivity.class);
         startActivity(intent);
     }
 
