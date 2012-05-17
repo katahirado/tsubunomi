@@ -20,15 +20,19 @@
         <Button
             android:id="@+id/capButton"
             android:text="写真撮影"
+            android:layout_marginLeft="5dp"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
         <Button
                 android:id="@+id/picButton"
+                android:layout_marginLeft="5dp"
                 android:text="写真添付"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
         <Button
                 android:id="@+id/tweetButton"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="4dp"
                 android:text="つぶやく"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
@@ -51,19 +55,19 @@
         <Button
                 android:id="@+id/uTimeButton"
                 android:text="UserTimeline"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
         <Button
                 android:id="@+id/sButton"
                 android:text="Search"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
         <Button
                 android:id="@+id/goToOAuthButton"
                 android:text="Go to OAuth"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
