@@ -25,7 +25,7 @@ src/jp/katahirado/android/tsubunomi/Const.javaの CONSUMER_KEY と CONSUMER_SECR
 Copyright &copy; 2012 katahirado  
 Distributed under the [MIT License][mit].  
 
-[Apache]: http://www.apache.org/licenses/LICENSE-2.0]
+[Apache]: http://www.apache.org/licenses/LICENSE-2.0
 [MIT]: http://www.opensource.org/licenses/mit-license.php
 [ttj]: https://github.com/twitter/twitter-text-java
 [4j]: http://twitter4j.org/ja/index.html
