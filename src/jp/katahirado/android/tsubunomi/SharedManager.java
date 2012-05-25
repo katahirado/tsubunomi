@@ -2,6 +2,7 @@ package jp.katahirado.android.tsubunomi;
 
 import android.content.SharedPreferences;
 import twitter4j.TwitterAPIConfiguration;
+import twitter4j.User;
 import twitter4j.auth.AccessToken;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class SharedManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Const.PREF_KEY_TOKEN, accessToken.getToken());
         editor.putString(Const.PREF_KEY_SECRET, accessToken.getTokenSecret());
+        editor.putString(Const.PREF_SCREEN_NAME,accessToken.getScreenName());
         editor.commit();
     }
 
@@ -36,6 +38,7 @@ public class SharedManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(Const.PREF_KEY_TOKEN);
         editor.remove(Const.PREF_KEY_SECRET);
+        editor.remove(Const.PREF_SCREEN_NAME);
         editor.commit();
     }
 
@@ -92,4 +95,9 @@ public class SharedManager {
         return sharedPreferences.getInt(prefKey, i);
     }
 
+    public void setCurrentUser(User user) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Const.PREF_SCREEN_NAME,user.getScreenName());
+        editor.commit();
+    }
 }

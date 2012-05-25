@@ -11,6 +11,7 @@ public class Const {
     public static final String PREFERENCE_NAME = "tsubunomi_preference";
     public static final String PREF_KEY_SECRET = "oauth_token_secret";
     public static final String PREF_KEY_TOKEN = "oauth_token";
+    public static final String PREF_SCREEN_NAME = "screen_name";
 
     public static final String CALLBACK_URL = "oauth://katahirado";
 
