@@ -26,6 +26,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
     private TweetManager tweetManager;
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
+    private SharedManager sharedManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
 
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
-        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
@@ -47,10 +48,13 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Tweet tweet = tweetList.get(position);
                 String screenName = tweet.getFromUser();
+                String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
                 UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
                 for (UserMentionEntity userMention : userMentions) {
-                    if (!tweet.getFromUser().equals(userMention.getScreenName())) {
-                        screenName = screenName + " @" + userMention.getScreenName();
+                    String fromUserName = tweet.getFromUser();
+                    String mentionName = userMention.getScreenName();
+                    if (!fromUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
+                        screenName = screenName + " @" + mentionName;
                     }
                 }
                 Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
