@@ -2,19 +2,18 @@ package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
+import twitter4j.UserMentionEntity;
 
 import java.util.ArrayList;
 
@@ -30,6 +29,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private ArrayAdapter<String> adapter;
     private ArrayList<String> screenNames;
     private SharedManager sharedManager;
+    private ArrayList<Status> tweetList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,23 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         uSearchButton.setOnClickListener(this);
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Status status = tweetList.get(position);
+                String screenName = status.getUser().getScreenName();
+                UserMentionEntity[] userMentions = status.getUserMentionEntities();
+                for (UserMentionEntity userMention : userMentions) {
+                    if(!status.getUser().getScreenName().equals(userMention.getScreenName())){
+                        screenName = screenName + " @" + userMention.getScreenName();
+                    }
+                }
+                Intent intent = new Intent(getApplicationContext(),TsubunomiActivity.class);
+                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID,status.getId());
+                intent.putExtra(Const.SCREEN_NAME,screenName);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -64,7 +81,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                     screenNames.add(query);
                     sharedManager.setScreenNames(screenNames);
                 }
-                ArrayList<Status> tweetList = new ArrayList<Status>();
+                tweetList = new ArrayList<Status>();
                 TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
                 UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
                 task.execute(query);

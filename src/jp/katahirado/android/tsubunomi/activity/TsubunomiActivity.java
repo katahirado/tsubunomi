@@ -163,21 +163,9 @@ public class TsubunomiActivity extends Activity {
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
-                String screenName = uri.getQueryParameter("screen_name");
-                setTitle(getString(R.string.app_name) + " : " + screenName + "に返信");
-                inReplyToStatusId = Long.parseLong(uri.getQueryParameter("in_reply_to_status_id"));
-                try {
-                    Status status = twitter.showStatus(inReplyToStatusId);
-                    replyText.setText(screenName + " : " + status.getText());
-                    replyText.setVisibility(View.VISIBLE);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
-                CharSequence mentionString = "@" + screenName + " ";
-                tweetText.setText(mentionString);
-                tweetButton.setText("返信する");
-                //位置を調整する
-                tweetText.setSelection(mentionString.length());
+                String screenName = uri.getQueryParameter(Const.SCREEN_NAME);
+                inReplyToStatusId = Long.parseLong(uri.getQueryParameter(Const.IN_REPLY_TO_STATUS_ID));
+                setReplyMessage(screenName);
             }
         } else if (Intent.ACTION_SEND.equals(action)) {
             CharSequence text = intent.getExtras().getCharSequence(Intent.EXTRA_TEXT);
@@ -187,6 +175,12 @@ public class TsubunomiActivity extends Activity {
             Uri stream = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (stream != null) {
                 attachmentAndCalculateTweetCount(stream);
+            }
+        }else{
+            String screenName = intent.getStringExtra(Const.SCREEN_NAME);
+            if(screenName!=null){
+                inReplyToStatusId = intent.getLongExtra(Const.IN_REPLY_TO_STATUS_ID,0);
+                setReplyMessage(screenName);
             }
         }
     }
@@ -407,6 +401,22 @@ public class TsubunomiActivity extends Activity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //Galaxy s2 /mnt/sdcard/Android/data/jp.karahido.android.tsubunomi/data/yyyyMMdd_HHmmss.jpg
         return new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), timeStamp + ".jpg");
+    }
+
+    private void setReplyMessage(String screenName) {
+        setTitle(getString(R.string.app_name) + " : " + screenName + "に返信");
+        try {
+            Status status = twitter.showStatus(inReplyToStatusId);
+            replyText.setText(screenName + " : " + status.getText());
+            replyText.setVisibility(View.VISIBLE);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        CharSequence mentionString = "@" + screenName + " ";
+        tweetText.setText(mentionString);
+        tweetButton.setText("返信する");
+        //位置を調整する
+        tweetText.setSelection(mentionString.length());
     }
 
     private void tweet() {
