@@ -176,10 +176,10 @@ public class TsubunomiActivity extends Activity {
             if (stream != null) {
                 attachmentAndCalculateTweetCount(stream);
             }
-        }else{
+        } else {
             String screenName = intent.getStringExtra(Const.SCREEN_NAME);
-            if(screenName!=null){
-                inReplyToStatusId = intent.getLongExtra(Const.IN_REPLY_TO_STATUS_ID,0);
+            if (screenName != null) {
+                inReplyToStatusId = intent.getLongExtra(Const.IN_REPLY_TO_STATUS_ID, 0);
                 setReplyMessage(screenName);
             }
         }
@@ -406,13 +406,18 @@ public class TsubunomiActivity extends Activity {
     private void setReplyMessage(String screenName) {
         String replyName = screenName.split(" ")[0];
         setTitle(getString(R.string.app_name) + " : " + replyName + "に返信");
-        try {
-            Status status = twitter.showStatus(inReplyToStatusId);
-            replyText.setText(replyName + " : " + status.getText());
-            replyText.setVisibility(View.VISIBLE);
-        } catch (TwitterException e) {
-            e.printStackTrace();
+        String message = intent.getStringExtra(Const.MESSAGE);
+        if (message == null) {
+            try {
+                Status status = twitter.showStatus(inReplyToStatusId);
+                replyText.setText(replyName + " : " + status.getText());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        } else {
+            replyText.setText(message);
         }
+        replyText.setVisibility(View.VISIBLE);
         CharSequence mentionString = "@" + screenName + " ";
         tweetText.setText(mentionString);
         tweetButton.setText("返信する");

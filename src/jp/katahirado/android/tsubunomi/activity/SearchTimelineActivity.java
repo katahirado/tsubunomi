@@ -49,13 +49,14 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
                 String screenName = tweet.getFromUser();
                 UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
                 for (UserMentionEntity userMention : userMentions) {
-                    if(!tweet.getFromUser().equals(userMention.getScreenName())){
+                    if (!tweet.getFromUser().equals(userMention.getScreenName())) {
                         screenName = screenName + " @" + userMention.getScreenName();
                     }
                 }
-                Intent intent = new Intent(getApplicationContext(),TsubunomiActivity.class);
-                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID,tweet.getId());
-                intent.putExtra(Const.SCREEN_NAME,screenName);
+                Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
+                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, tweet.getId());
+                intent.putExtra(Const.SCREEN_NAME, screenName);
+                intent.putExtra(Const.MESSAGE, tweet.getText());
                 startActivity(intent);
             }
         });

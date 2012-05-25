@@ -55,13 +55,14 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
                 String screenName = status.getUser().getScreenName();
                 UserMentionEntity[] userMentions = status.getUserMentionEntities();
                 for (UserMentionEntity userMention : userMentions) {
-                    if(!status.getUser().getScreenName().equals(userMention.getScreenName())){
+                    if (!status.getUser().getScreenName().equals(userMention.getScreenName())) {
                         screenName = screenName + " @" + userMention.getScreenName();
                     }
                 }
-                Intent intent = new Intent(getApplicationContext(),TsubunomiActivity.class);
-                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID,status.getId());
-                intent.putExtra(Const.SCREEN_NAME,screenName);
+                Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
+                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
+                intent.putExtra(Const.SCREEN_NAME, screenName);
+                intent.putExtra(Const.MESSAGE, status.getText());
                 startActivity(intent);
             }
         });
