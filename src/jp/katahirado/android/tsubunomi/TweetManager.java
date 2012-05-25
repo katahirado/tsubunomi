@@ -1,8 +1,10 @@
 package jp.katahirado.android.tsubunomi;
 
 import com.twitter.Extractor;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.UserMentionEntity;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.List;
@@ -58,5 +60,16 @@ public class TweetManager {
             }
         }
         return diffCount;
+    }
+
+    public String buildReplyMention(Status status) {
+        String screenName = status.getUser().getScreenName();
+        UserMentionEntity[] userMentions = status.getUserMentionEntities();
+        for (UserMentionEntity userMention : userMentions) {
+            if (!status.getUser().getScreenName().equals(userMention.getScreenName())) {
+                screenName = screenName + " @" + userMention.getScreenName();
+            }
+        }
+        return screenName;
     }
 }

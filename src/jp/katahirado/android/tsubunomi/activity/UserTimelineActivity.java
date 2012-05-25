@@ -13,7 +13,6 @@ import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
-import twitter4j.UserMentionEntity;
 
 import java.util.ArrayList;
 
@@ -52,13 +51,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Status status = tweetList.get(position);
-                String screenName = status.getUser().getScreenName();
-                UserMentionEntity[] userMentions = status.getUserMentionEntities();
-                for (UserMentionEntity userMention : userMentions) {
-                    if (!status.getUser().getScreenName().equals(userMention.getScreenName())) {
-                        screenName = screenName + " @" + userMention.getScreenName();
-                    }
-                }
+                String screenName = tweetManager.buildReplyMention(status);
                 Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
                 intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
                 intent.putExtra(Const.SCREEN_NAME, screenName);

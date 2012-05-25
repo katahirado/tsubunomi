@@ -410,6 +410,7 @@ public class TsubunomiActivity extends Activity {
         if (message == null) {
             try {
                 Status status = twitter.showStatus(inReplyToStatusId);
+                screenName = tweetManager.buildReplyMention(status);
                 replyText.setText(replyName + " : " + status.getText());
             } catch (TwitterException e) {
                 e.printStackTrace();
