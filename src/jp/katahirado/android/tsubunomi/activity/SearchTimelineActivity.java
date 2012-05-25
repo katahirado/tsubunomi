@@ -2,18 +2,17 @@ package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.SearchTimelineTask;
 import twitter4j.Query;
 import twitter4j.Tweet;
+import twitter4j.UserMentionEntity;
 
 import java.util.ArrayList;
 
@@ -26,6 +25,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
     private ListView listView;
     private TweetManager tweetManager;
     private ArrayAdapter<String> adapter;
+    private ArrayList<Tweet> tweetList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,23 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
         searchText.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Tweet tweet = tweetList.get(position);
+                String screenName = tweet.getFromUser();
+                UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
+                for (UserMentionEntity userMention : userMentions) {
+                    if(!tweet.getFromUser().equals(userMention.getScreenName())){
+                        screenName = screenName + " @" + userMention.getScreenName();
+                    }
+                }
+                Intent intent = new Intent(getApplicationContext(),TsubunomiActivity.class);
+                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID,tweet.getId());
+                intent.putExtra(Const.SCREEN_NAME,screenName);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,7 +71,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
                     return;
                 }
                 adapter.add(query);
-                ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
+                tweetList = new ArrayList<Tweet>();
                 SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
                 SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
                 task.execute(buildQuery(query));

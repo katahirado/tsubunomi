@@ -404,10 +404,11 @@ public class TsubunomiActivity extends Activity {
     }
 
     private void setReplyMessage(String screenName) {
-        setTitle(getString(R.string.app_name) + " : " + screenName + "に返信");
+        String replyName = screenName.split(" ")[0];
+        setTitle(getString(R.string.app_name) + " : " + replyName + "に返信");
         try {
             Status status = twitter.showStatus(inReplyToStatusId);
-            replyText.setText(screenName + " : " + status.getText());
+            replyText.setText(replyName + " : " + status.getText());
             replyText.setVisibility(View.VISIBLE);
         } catch (TwitterException e) {
             e.printStackTrace();
