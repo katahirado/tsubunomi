@@ -29,7 +29,7 @@ import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
-import jp.katahirado.android.tsubunomi.task.HelpConfigurationTask;
+import jp.katahirado.android.tsubunomi.task.ProfileAndHelpConfigurationTask;
 import jp.katahirado.android.tsubunomi.task.TweetPostTask;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -251,7 +251,7 @@ public class TsubunomiActivity extends Activity {
     private void checkPreferences() {
         if (sharedManager.isConnected()) {
             twitter = tweetManager.connectTwitter();
-            onceDayHelpConfigurationTask();
+            onceDayProfileAndConfigurationTask();
             tweetButton.setEnabled(true);
         } else {
             tweetButton.setEnabled(false);
@@ -260,10 +260,10 @@ public class TsubunomiActivity extends Activity {
         }
     }
 
-    private void onceDayHelpConfigurationTask() {
+    private void onceDayProfileAndConfigurationTask() {
         if (sharedManager.isCheckConfigTime()) {
-            HelpConfigurationTask helpConfigurationTask = new HelpConfigurationTask(sharedManager);
-            helpConfigurationTask.execute(twitter);
+            ProfileAndHelpConfigurationTask task = new ProfileAndHelpConfigurationTask(sharedManager);
+            task.execute(twitter);
         }
     }
 
@@ -411,13 +411,12 @@ public class TsubunomiActivity extends Activity {
             try {
                 Status status = twitter.showStatus(inReplyToStatusId);
                 screenName = tweetManager.buildReplyMention(status);
-                replyText.setText(replyName + " : " + status.getText());
+                message = status.getText();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
-        } else {
-            replyText.setText(message);
         }
+        replyText.setText(replyName + " : " + message);
         replyText.setVisibility(View.VISIBLE);
         CharSequence mentionString = "@" + screenName + " ";
         tweetText.setText(mentionString);
