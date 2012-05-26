@@ -79,15 +79,19 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.timeline_menu, menu);
+        menuInflater.inflate(R.menu.user_timeline_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_timeline_refresh:
+            case R.id.menu_user_timeline_refresh:
                 getUserTimelineTask();
+                break;
+            case R.id.menu_screen_name_manage:
+                Intent intent = new Intent(this,ScreenNamesManageActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

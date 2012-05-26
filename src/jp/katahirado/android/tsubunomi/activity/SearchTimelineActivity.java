@@ -85,14 +85,14 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.timeline_menu, menu);
+        menuInflater.inflate(R.menu.search_timeline_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_timeline_refresh:
+            case R.id.menu_search_timeline_refresh:
                 getSearchTimelineTask();
                 break;
         }
