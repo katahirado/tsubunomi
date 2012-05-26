@@ -66,6 +66,14 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        screenNames = sharedManager.getScreenNames();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
+        screenNameText.setAdapter(adapter);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.u_search_button:
