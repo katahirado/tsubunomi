@@ -106,7 +106,9 @@ public class ScreenNamesManageActivity extends Activity
             public void onClick(DialogInterface dialog, int i) {
                 adapter.remove(screenName);
                 screenNames.remove(screenName);
-                sharedManager.setScreenNames(screenNames);
+                ArrayList<String> names = sharedManager.getScreenNames();
+                names.remove(screenName);
+                sharedManager.setScreenNames(names);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
