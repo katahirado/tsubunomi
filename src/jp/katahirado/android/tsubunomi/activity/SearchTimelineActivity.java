@@ -51,11 +51,12 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Tweet tweet = tweetList.get(position);
-                String screenName = tweet.getFromUser();
+                String screenName;
+                String fromUserName = tweet.getFromUser();
+                screenName = fromUserName;
                 String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
                 UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
                 for (UserMentionEntity userMention : userMentions) {
-                    String fromUserName = tweet.getFromUser();
                     String mentionName = userMention.getScreenName();
                     if (!fromUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
                         screenName = screenName + " @" + mentionName;

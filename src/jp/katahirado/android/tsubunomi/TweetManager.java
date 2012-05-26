@@ -63,16 +63,17 @@ public class TweetManager {
     }
 
     public String buildReplyMention(Status status) {
-        String screenName = status.getUser().getScreenName();
+        String result;
+        String tweetUserName = status.getUser().getScreenName();
+        result = tweetUserName;
         String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
         UserMentionEntity[] userMentions = status.getUserMentionEntities();
         for (UserMentionEntity userMention : userMentions) {
-            String tweetUserName = status.getUser().getScreenName();
             String mentionName = userMention.getScreenName();
             if (!tweetUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
-                screenName = screenName + " @" + mentionName;
+                result = result + " @" + mentionName;
             }
         }
-        return screenName;
+        return result;
     }
 }
