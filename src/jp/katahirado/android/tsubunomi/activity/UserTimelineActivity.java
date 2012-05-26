@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -29,6 +32,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private ArrayList<String> screenNames;
     private SharedManager sharedManager;
     private ArrayList<Status> tweetList;
+    private String query="";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,22 +70,44 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.u_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
-                String query = builder.toString();
-                if (query.length() == 0) {
-                    return;
-                }
-                if (adapter.getPosition(query) == -1) {
-                    adapter.add(query);
-                    screenNames.add(query);
-                    sharedManager.setScreenNames(screenNames);
-                }
-                tweetList = new ArrayList<Status>();
-                TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
-                UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
-                task.execute(query);
+                query = builder.toString();
+                getUserTimelineTask();
                 break;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.timeline_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_timeline_refresh:
+                getUserTimelineTask();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getUserTimelineTask() {
+        if (query.length() == 0) {
+            return;
+        }
+        if (adapter.getPosition(query) == -1) {
+            adapter.add(query);
+            screenNames.add(query);
+            sharedManager.setScreenNames(screenNames);
+        }
+        tweetList = new ArrayList<Status>();
+        TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
+        UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
+        task.execute(query);
+    }
+
 
     public void setTimelineListAdapter(TweetListAdapter adapter, String name) {
         listView.setAdapter(adapter);

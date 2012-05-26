@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -27,6 +30,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
     private SharedManager sharedManager;
+    private String query="";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,23 +75,44 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         switch (view.getId()) {
             case R.id.search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchText.getText();
-                String query = builder.toString();
-                if (query.length() == 0) {
-                    return;
-                }
-                adapter.add(query);
-                tweetList = new ArrayList<Tweet>();
-                SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
-                SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
-                task.execute(buildQuery(query));
+                query = builder.toString();
+                getSearchTimelineTask();
                 break;
         }
     }
 
-    private Query buildQuery(String query) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.timeline_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_timeline_refresh:
+                getSearchTimelineTask();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getSearchTimelineTask() {
+        if (query.length() == 0) {
+            return;
+        }
+        adapter.add(query);
+        tweetList = new ArrayList<Tweet>();
+        SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
+        SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
+        task.execute(buildQuery(query));
+    }
+
+    private Query buildQuery(String s) {
         Query q = new Query();
         String lang = "";
-        String[] queryParams = query.split("&");
+        String[] queryParams = s.split("&");
         if (queryParams.length > 1 && queryParams[1].startsWith("lang")) {
             lang = queryParams[1].split("=")[1];
         }
@@ -98,11 +123,11 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         return q;
     }
 
-    public void setSearchListAdapter(SearchListAdapter adapter, String query) {
+    public void setSearchListAdapter(SearchListAdapter adapter, String q) {
         listView.setAdapter(adapter);
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         searchText.setText("");
-        setTitle(getString(R.string.app_name) + " : Search : " + query);
+        setTitle(getString(R.string.app_name) + " : Search : " + q);
     }
 }
