@@ -2,7 +2,6 @@ package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.Menu;
@@ -15,7 +14,6 @@ import jp.katahirado.android.tsubunomi.*;
 import jp.katahirado.android.tsubunomi.task.SearchTimelineTask;
 import twitter4j.Query;
 import twitter4j.Tweet;
-import twitter4j.UserMentionEntity;
 
 import java.util.ArrayList;
 
@@ -37,7 +35,6 @@ public class SearchTimelineActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchtimeline);
 
-
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
@@ -54,22 +51,7 @@ public class SearchTimelineActivity extends Activity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Tweet tweet = tweetList.get(position);
-        String screenName;
-        String fromUserName = tweet.getFromUser();
-        screenName = fromUserName;
-        String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
-        UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
-        for (UserMentionEntity userMention : userMentions) {
-            String mentionName = userMention.getScreenName();
-            if (!fromUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
-                screenName = screenName + " @" + mentionName;
-            }
-        }
-        Intent intent = new Intent(this, TsubunomiActivity.class);
-        intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, tweet.getId());
-        intent.putExtra(Const.SCREEN_NAME, screenName);
-        intent.putExtra(Const.MESSAGE, tweet.getText());
-        startActivity(intent);
+        new TweetDialog(this, tweet).show();
     }
 
     @Override
