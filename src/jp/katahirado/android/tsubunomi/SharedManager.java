@@ -30,7 +30,7 @@ public class SharedManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Const.PREF_KEY_TOKEN, accessToken.getToken());
         editor.putString(Const.PREF_KEY_SECRET, accessToken.getTokenSecret());
-        editor.putString(Const.PREF_SCREEN_NAME,accessToken.getScreenName());
+        editor.putString(Const.PREF_SCREEN_NAME, accessToken.getScreenName());
         editor.commit();
     }
 
@@ -97,7 +97,7 @@ public class SharedManager {
 
     public void setCurrentUser(User user) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Const.PREF_SCREEN_NAME,user.getScreenName());
+        editor.putString(Const.PREF_SCREEN_NAME, user.getScreenName());
         editor.commit();
     }
 }

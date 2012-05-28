@@ -29,7 +29,6 @@ public class SearchTimelineActivity extends Activity
     private TweetManager tweetManager;
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
-    private SharedManager sharedManager;
     private String query = "";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class SearchTimelineActivity extends Activity
 
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
