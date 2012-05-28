@@ -36,6 +36,10 @@ public class TweetDialog extends MenuDialog {
                 }
                 replyToStartActivity(tweet.getId(), screenName, tweet.getText());
                 break;
+            case RETWEET:
+                publicReTweet(tweet.getId());
+                break;
         }
+        dismiss();
     }
 }

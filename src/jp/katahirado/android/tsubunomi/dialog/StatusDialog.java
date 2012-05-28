@@ -24,6 +24,10 @@ public class StatusDialog extends MenuDialog {
                 String screenName = tweetManager.buildReplyMention(status);
                 replyToStartActivity(status.getId(), screenName, status.getText());
                 break;
+            case RETWEET:
+                publicReTweet(status.getId());
+                break;
         }
+        dismiss();
     }
 }
