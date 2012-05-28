@@ -66,12 +66,7 @@ public class UserTimelineActivity extends Activity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Status status = tweetList.get(position);
-        String screenName = tweetManager.buildReplyMention(status);
-        Intent intent = new Intent(this, TsubunomiActivity.class);
-        intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
-        intent.putExtra(Const.SCREEN_NAME, screenName);
-        intent.putExtra(Const.MESSAGE, status.getText());
-        startActivity(intent);
+        new StatusDialog(this,status).show();
     }
 
     @Override
