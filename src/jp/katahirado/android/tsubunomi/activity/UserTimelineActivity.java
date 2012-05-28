@@ -23,7 +23,8 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class UserTimelineActivity extends Activity implements View.OnClickListener {
+public class UserTimelineActivity extends Activity
+        implements View.OnClickListener, AdapterView.OnItemClickListener {
     private AutoCompleteTextView screenNameText;
     private ListView listView;
     private TweetManager tweetManager;
@@ -32,7 +33,7 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
     private ArrayList<String> screenNames;
     private SharedManager sharedManager;
     private ArrayList<Status> tweetList;
-    private String query="";
+    private String query = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,20 +50,9 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
         Button uSearchButton = (Button) findViewById(R.id.u_search_button);
         uSearchButton.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Status status = tweetList.get(position);
-                String screenName = tweetManager.buildReplyMention(status);
-                Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
-                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
-                intent.putExtra(Const.SCREEN_NAME, screenName);
-                intent.putExtra(Const.MESSAGE, status.getText());
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -71,6 +61,17 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
         screenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
         screenNameText.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Status status = tweetList.get(position);
+        String screenName = tweetManager.buildReplyMention(status);
+        Intent intent = new Intent(this, TsubunomiActivity.class);
+        intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
+        intent.putExtra(Const.SCREEN_NAME, screenName);
+        intent.putExtra(Const.MESSAGE, status.getText());
+        startActivity(intent);
     }
 
     @Override
@@ -93,12 +94,12 @@ public class UserTimelineActivity extends Activity implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_user_timeline_refresh:
                 getUserTimelineTask();
                 break;
             case R.id.menu_screen_name_manage:
-                Intent intent = new Intent(this,ScreenNamesManageActivity.class);
+                Intent intent = new Intent(this, ScreenNamesManageActivity.class);
                 startActivity(intent);
                 break;
         }

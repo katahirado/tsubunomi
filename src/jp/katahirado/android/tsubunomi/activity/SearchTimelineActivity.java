@@ -23,14 +23,15 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class SearchTimelineActivity extends Activity implements View.OnClickListener {
+public class SearchTimelineActivity extends Activity
+        implements View.OnClickListener, AdapterView.OnItemClickListener {
     private AutoCompleteTextView searchText;
     private ListView listView;
     private TweetManager tweetManager;
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
     private SharedManager sharedManager;
-    private String query="";
+    private String query = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,29 +47,29 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
         searchText.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Tweet tweet = tweetList.get(position);
-                String screenName;
-                String fromUserName = tweet.getFromUser();
-                screenName = fromUserName;
-                String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
-                UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
-                for (UserMentionEntity userMention : userMentions) {
-                    String mentionName = userMention.getScreenName();
-                    if (!fromUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
-                        screenName = screenName + " @" + mentionName;
-                    }
-                }
-                Intent intent = new Intent(getApplicationContext(), TsubunomiActivity.class);
-                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, tweet.getId());
-                intent.putExtra(Const.SCREEN_NAME, screenName);
-                intent.putExtra(Const.MESSAGE, tweet.getText());
-                startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Tweet tweet = tweetList.get(position);
+        String screenName;
+        String fromUserName = tweet.getFromUser();
+        screenName = fromUserName;
+        String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
+        UserMentionEntity[] userMentions = tweet.getUserMentionEntities();
+        for (UserMentionEntity userMention : userMentions) {
+            String mentionName = userMention.getScreenName();
+            if (!fromUserName.equals(mentionName) && !mentionName.equals(currentScreenName)) {
+                screenName = screenName + " @" + mentionName;
             }
-        });
+        }
+        Intent intent = new Intent(this, TsubunomiActivity.class);
+        intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, tweet.getId());
+        intent.putExtra(Const.SCREEN_NAME, screenName);
+        intent.putExtra(Const.MESSAGE, tweet.getText());
+        startActivity(intent);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_search_timeline_refresh:
                 getSearchTimelineTask();
                 break;
@@ -131,4 +132,5 @@ public class SearchTimelineActivity extends Activity implements View.OnClickList
         searchText.setText("");
         setTitle(getString(R.string.app_name) + " : Search : " + q);
     }
+
 }
