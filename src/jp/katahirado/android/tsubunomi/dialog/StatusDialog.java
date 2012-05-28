@@ -1,11 +1,8 @@
 package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
-import jp.katahirado.android.tsubunomi.Const;
-import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.Status;
 
 /**
@@ -25,11 +22,7 @@ public class StatusDialog extends MenuDialog {
         switch (position) {
             case REPLY:
                 String screenName = tweetManager.buildReplyMention(status);
-                Intent intent = new Intent(activity, TsubunomiActivity.class);
-                intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, status.getId());
-                intent.putExtra(Const.SCREEN_NAME, screenName);
-                intent.putExtra(Const.MESSAGE, status.getText());
-                activity.startActivity(intent);
+                replyToStartActivity(status.getId(), screenName, status.getText());
                 break;
         }
     }
