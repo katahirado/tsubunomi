@@ -1,4 +1,4 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 
 /**
  * Created with IntelliJ IDEA.

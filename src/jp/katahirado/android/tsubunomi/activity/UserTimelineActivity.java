@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.dialog.StatusDialog;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
 import twitter4j.Status;
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.dialog.TweetDialog;
 import jp.katahirado.android.tsubunomi.task.SearchTimelineTask;
 import twitter4j.Query;
 import twitter4j.Tweet;

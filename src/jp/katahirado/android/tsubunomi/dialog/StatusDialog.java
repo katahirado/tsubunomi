@@ -1,9 +1,10 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.Status;
 

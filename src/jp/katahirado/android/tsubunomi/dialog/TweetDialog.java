@@ -1,13 +1,10 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.Tweet;
 import twitter4j.UserMentionEntity;
