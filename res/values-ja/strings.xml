@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">つぶのみ</string>
+    <string name="reply">返信</string>
+    <string name="retweet">公式リツイート</string>
 </resources>
