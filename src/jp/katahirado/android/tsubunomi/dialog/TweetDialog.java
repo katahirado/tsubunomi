@@ -39,6 +39,9 @@ public class TweetDialog extends MenuDialog {
             case RETWEET:
                 publicReTweet(tweet.getId());
                 break;
+            case SEND_DM:
+                DMtoActivity(tweet.getFromUserName());
+                break;
         }
         dismiss();
     }

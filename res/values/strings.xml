@@ -3,4 +3,5 @@
     <string name="app_name">tsubunomi</string>
     <string name="reply">Reply</string>
     <string name="retweet">ReTweet</string>
+    <string name="send_dm">DirectMessage</string>
 </resources>

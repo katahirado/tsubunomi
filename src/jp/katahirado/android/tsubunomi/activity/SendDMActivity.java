@@ -85,11 +85,20 @@ public class SendDMActivity extends Activity {
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
-                //タイトルに◯◯にダイレクトメッセージと表示する
                 screenName = uri.getLastPathSegment();
-                setTitle(getString(R.string.app_name) + " : " + screenName + "にダイレクトメッセージ");
+                setDMTitle();
+            }
+        } else {
+            String name = intent.getStringExtra(Const.SCREEN_NAME);
+            if (name != null) {
+                screenName = name;
+                setDMTitle();
             }
         }
+    }
+
+    private void setDMTitle() {
+        setTitle(getString(R.string.app_name) + " : " + screenName + "にダイレクトメッセージ");
     }
 
     private void sendDM() {

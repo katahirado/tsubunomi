@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
+import jp.katahirado.android.tsubunomi.activity.SendDMActivity;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -30,11 +32,13 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     private String[] menuItems;
     protected static final int REPLY = 0;
     protected static final int RETWEET = 1;
+    protected static final int SEND_DM = 2;
     protected SharedManager sharedManager;
 
     public MenuDialog(Activity activity) {
         super(activity);
         this.activity = activity;
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     @Override
@@ -46,7 +50,8 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 activity.MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         ListView menuList = (ListView) findViewById(R.id.menu_dialog_list);
-        menuItems = new String[]{activity.getString(R.string.reply), activity.getString(R.string.retweet)};
+        menuItems = new String[]{activity.getString(R.string.reply),
+                activity.getString(R.string.retweet), activity.getString(R.string.send_dm)};
         menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
                 android.R.layout.simple_list_item_1, menuItems));
         menuList.setOnItemClickListener(this);
@@ -92,5 +97,11 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
 
                     }
                 }).create().show();
+    }
+
+    protected void DMtoActivity(String screenName) {
+        Intent intent = new Intent(activity, SendDMActivity.class);
+        intent.putExtra(Const.SCREEN_NAME, screenName);
+        activity.startActivity(intent);
     }
 }
