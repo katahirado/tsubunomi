@@ -54,6 +54,11 @@ public class UserTimelineActivity extends Activity
         listView.setOnItemClickListener(this);
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
+        Intent intent = getIntent();
+        String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
+        if (receiveName != null) {
+            screenNameText.setText(receiveName);
+        }
     }
 
     @Override
@@ -67,7 +72,7 @@ public class UserTimelineActivity extends Activity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Status status = tweetList.get(position);
-        new StatusDialog(this,status).show();
+        new StatusDialog(this, status).show();
     }
 
     @Override

@@ -2,6 +2,7 @@ package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.Menu;
@@ -46,6 +47,11 @@ public class SearchTimelineActivity extends Activity
         searchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
         searchText.setAdapter(adapter);
+        Intent intent = getIntent();
+        String receiveHash = intent.getStringExtra(Const.HASH);
+        if (receiveHash != null) {
+            searchText.setText(receiveHash);
+        }
     }
 
     @Override
