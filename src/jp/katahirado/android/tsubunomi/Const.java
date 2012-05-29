@@ -30,4 +30,5 @@ public class Const {
     public static final String IN_REPLY_TO_STATUS_ID = "in_reply_to_status_id";
     public static final String SCREEN_NAME = "screen_name";
     public static final String MESSAGE = "message";
+    public static final String HASH = "hash";
 }
