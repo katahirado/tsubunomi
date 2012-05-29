@@ -57,7 +57,8 @@ public class UserTimelineActivity extends Activity
         Intent intent = getIntent();
         String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
         if (receiveName != null) {
-            screenNameText.setText(receiveName);
+            query =receiveName;
+            getUserTimelineTask();
         }
     }
 
@@ -72,7 +73,7 @@ public class UserTimelineActivity extends Activity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Status status = tweetList.get(position);
-        new StatusDialog(this, status).show();
+        new StatusDialog(this, sharedManager, tweetManager, status).show();
     }
 
     @Override

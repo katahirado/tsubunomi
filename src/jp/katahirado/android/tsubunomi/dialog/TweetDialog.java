@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import twitter4j.Tweet;
 import twitter4j.UserMentionEntity;
 
@@ -16,8 +18,8 @@ import twitter4j.UserMentionEntity;
 public class TweetDialog extends MenuDialog {
     private Tweet tweet;
 
-    public TweetDialog(Activity activity, Tweet tweet) {
-        super(activity);
+    public TweetDialog(Activity activity, SharedManager shared, TweetManager tweetManager, Tweet tweet) {
+        super(activity, shared, tweetManager);
         this.tweet = tweet;
     }
 

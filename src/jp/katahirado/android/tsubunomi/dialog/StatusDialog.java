@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import twitter4j.Status;
 
 /**
@@ -14,8 +16,8 @@ import twitter4j.Status;
 public class StatusDialog extends MenuDialog {
     private Status status;
 
-    public StatusDialog(Activity activity, Status status) {
-        super(activity);
+    public StatusDialog(Activity activity, SharedManager shared, TweetManager manager, Status status) {
+        super(activity, shared, manager);
         this.status = status;
     }
 

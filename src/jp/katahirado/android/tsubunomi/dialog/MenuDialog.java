@@ -40,9 +40,11 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     private Intent intent;
     private Map<String, String> entitiesDictionary;
 
-    public MenuDialog(Activity activity) {
+    public MenuDialog(Activity activity, SharedManager sharedManager, TweetManager tweetManager) {
         super(activity);
         this.activity = activity;
+        this.sharedManager = sharedManager;
+        this.tweetManager = tweetManager;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
@@ -50,9 +52,6 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_dialog);
-        sharedManager = new SharedManager(activity.getSharedPreferences(Const.PREFERENCE_NAME,
-                Activity.MODE_PRIVATE));
-        tweetManager = new TweetManager(sharedManager);
         menuList = (ListView) findViewById(R.id.menu_dialog_list);
         menuList.setOnItemClickListener(this);
     }

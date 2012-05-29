@@ -31,6 +31,7 @@ public class SearchTimelineActivity extends Activity
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
     private String query = "";
+    private SharedManager sharedManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class SearchTimelineActivity extends Activity
 
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
-        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
@@ -50,14 +51,15 @@ public class SearchTimelineActivity extends Activity
         Intent intent = getIntent();
         String receiveHash = intent.getStringExtra(Const.HASH);
         if (receiveHash != null) {
-            searchText.setText(receiveHash);
+            query = receiveHash;
+            getSearchTimelineTask();
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Tweet tweet = tweetList.get(position);
-        new TweetDialog(this, tweet).show();
+        new TweetDialog(this, sharedManager, tweetManager, tweet).show();
     }
 
     @Override
