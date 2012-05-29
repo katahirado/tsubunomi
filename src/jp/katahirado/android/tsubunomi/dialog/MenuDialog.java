@@ -145,7 +145,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         MediaEntity[] mediaEntities = status.getMediaEntities();
         if (mediaEntities != null) {
             for (MediaEntity entity : mediaEntities) {
-                entitiesDictionary.put(entity.getURL().toString(), entity.getExpandedURL().toString());
+                entitiesDictionary.put(entity.getURL().toString(), entity.getMediaURL().toString());
             }
         }
         HashtagEntity[] hashTagEntities = status.getHashtagEntities();
