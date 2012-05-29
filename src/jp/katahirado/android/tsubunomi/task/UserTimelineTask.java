@@ -2,6 +2,7 @@ package jp.katahirado.android.tsubunomi.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.TweetListAdapter;
 import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
@@ -19,7 +20,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     private TweetListAdapter tweetListAdapter;
     private ProgressDialog dialog;
     private TweetManager tweetManager;
-    private String query="";
+    private String query = "";
 
     public UserTimelineTask(UserTimelineActivity activity, TweetManager manager, TweetListAdapter adapter) {
         timelineActivity = activity;
@@ -30,7 +31,7 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(timelineActivity);
-        dialog.setMessage("取得中");
+        dialog.setMessage(timelineActivity.getString(R.string.loading));
         dialog.show();
     }
 
@@ -54,6 +55,6 @@ public class UserTimelineTask extends AsyncTask<String, Integer, TweetListAdapte
     @Override
     protected void onPostExecute(TweetListAdapter adapter) {
         dialog.dismiss();
-        timelineActivity.setTimelineListAdapter(adapter,query);
+        timelineActivity.setTimelineListAdapter(adapter, query);
     }
 }

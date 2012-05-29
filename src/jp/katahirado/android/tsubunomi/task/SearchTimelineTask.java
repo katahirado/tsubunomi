@@ -2,6 +2,7 @@ package jp.katahirado.android.tsubunomi.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SearchListAdapter;
 import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
@@ -34,7 +35,7 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(searchActivity);
-        dialog.setMessage("取得中");
+        dialog.setMessage(searchActivity.getString(R.string.loading));
         dialog.show();
     }
 
