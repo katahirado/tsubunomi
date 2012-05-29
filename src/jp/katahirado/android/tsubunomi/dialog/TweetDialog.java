@@ -1,8 +1,10 @@
 package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import jp.katahirado.android.tsubunomi.Const;
 import twitter4j.Tweet;
 import twitter4j.UserMentionEntity;
@@ -17,6 +19,14 @@ public class TweetDialog extends MenuDialog {
     public TweetDialog(Activity activity, Tweet tweet) {
         super(activity);
         this.tweet = tweet;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getIncludeEntitiesMenu(tweet);
+        menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
+                android.R.layout.simple_list_item_1, menuItems));
     }
 
     @Override
@@ -42,7 +52,11 @@ public class TweetDialog extends MenuDialog {
             case SEND_DM:
                 DMtoActivity(tweet.getFromUserName());
                 break;
+            default:
+                entityAction(position);
+                break;
         }
         dismiss();
     }
+
 }

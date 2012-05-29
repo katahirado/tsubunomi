@@ -1,8 +1,10 @@
 package jp.katahirado.android.tsubunomi.dialog;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import twitter4j.Status;
 
 /**
@@ -18,6 +20,14 @@ public class StatusDialog extends MenuDialog {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getIncludeEntitiesMenu(status);
+        menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
+                android.R.layout.simple_list_item_1, menuItems));
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         switch (position) {
             case REPLY:
@@ -29,6 +39,9 @@ public class StatusDialog extends MenuDialog {
                 break;
             case SEND_DM:
                 DMtoActivity(status.getUser().getScreenName());
+                break;
+            default:
+                entityAction(position);
                 break;
         }
         dismiss();

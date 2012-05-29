@@ -5,22 +5,24 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
+import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import jp.katahirado.android.tsubunomi.activity.SendDMActivity;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
+import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
+import twitter4j.*;
+
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,11 +31,14 @@ import twitter4j.TwitterException;
 public class MenuDialog extends Dialog implements AdapterView.OnItemClickListener {
     protected Activity activity;
     protected TweetManager tweetManager;
-    private String[] menuItems;
+    protected String[] menuItems;
     protected static final int REPLY = 0;
     protected static final int RETWEET = 1;
     protected static final int SEND_DM = 2;
     protected SharedManager sharedManager;
+    protected ListView menuList;
+    private Intent intent;
+    private Map<String, String> entitiesDictionary;
 
     public MenuDialog(Activity activity) {
         super(activity);
@@ -45,15 +50,10 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_dialog);
-
         sharedManager = new SharedManager(activity.getSharedPreferences(Const.PREFERENCE_NAME,
                 activity.MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
-        ListView menuList = (ListView) findViewById(R.id.menu_dialog_list);
-        menuItems = new String[]{activity.getString(R.string.reply),
-                activity.getString(R.string.retweet), activity.getString(R.string.send_dm)};
-        menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
-                android.R.layout.simple_list_item_1, menuItems));
+        menuList = (ListView) findViewById(R.id.menu_dialog_list);
         menuList.setOnItemClickListener(this);
     }
 
@@ -100,8 +100,79 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     }
 
     protected void DMtoActivity(String screenName) {
-        Intent intent = new Intent(activity, SendDMActivity.class);
+        intent = new Intent(activity, SendDMActivity.class);
         intent.putExtra(Const.SCREEN_NAME, screenName);
         activity.startActivity(intent);
+    }
+
+    protected void entityAction(int position) {
+        String key = menuItems[position];
+        String value = entitiesDictionary.get(key);
+        if (key.startsWith("@")) {
+            startUserTimelineActivity(value);
+        } else if (key.startsWith("#")) {
+            startSearchTimelineActivity(value);
+        } else {
+            startExternalBrowser(value);
+        }
+    }
+
+    //hashはサーチに飛ばす
+    private void startSearchTimelineActivity(String hashTag) {
+        intent = new Intent(activity, SearchTimelineActivity.class);
+        intent.putExtra(Const.HASH, hashTag);
+        activity.startActivity(intent);
+    }
+
+    //mentionはuserに飛ばす
+    private void startUserTimelineActivity(String screenName) {
+        intent = new Intent(activity, UserTimelineActivity.class);
+        intent.putExtra(Const.SCREEN_NAME, screenName);
+        activity.startActivity(intent);
+    }
+
+    private void startExternalBrowser(String url) {
+        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        activity.startActivity(intent);
+    }
+
+    protected void getIncludeEntitiesMenu(EntitySupport status) {
+        List<String> resultList = new ArrayList<String>();
+        resultList.add(activity.getString(R.string.reply));
+        resultList.add(activity.getString(R.string.retweet));
+        resultList.add(activity.getString(R.string.send_dm));
+        entitiesDictionary = new HashMap<String, String>();
+        //各リストをDictionaryにセット
+        MediaEntity[] mediaEntities = status.getMediaEntities();
+        if (mediaEntities != null) {
+            for (MediaEntity entity : mediaEntities) {
+                entitiesDictionary.put(entity.getURL().toString(), entity.getExpandedURL().toString());
+            }
+        }
+        HashtagEntity[] hashTagEntities = status.getHashtagEntities();
+        if (hashTagEntities != null) {
+            for (HashtagEntity entity : hashTagEntities) {
+                entitiesDictionary.put("#" + entity.getText(), entity.getText());
+            }
+        }
+        URLEntity[] urlEntities = status.getURLEntities();
+        if (urlEntities != null) {
+            for (URLEntity entity : urlEntities) {
+                entitiesDictionary.put(entity.getURL().toString(), entity.getExpandedURL().toString());
+            }
+        }
+        UserMentionEntity[] userMentionEntities = status.getUserMentionEntities();
+        if (userMentionEntities != null) {
+            for (UserMentionEntity entity : userMentionEntities) {
+                entitiesDictionary.put("@" + entity.getScreenName(), entity.getScreenName());
+            }
+        }
+        Iterator<String> keySetIterator = entitiesDictionary.keySet().iterator();
+        if (keySetIterator != null) {
+            while (keySetIterator.hasNext()) {
+                resultList.add(keySetIterator.next());
+            }
+        }
+        menuItems = resultList.toArray(new String[resultList.size()]);
     }
 }
