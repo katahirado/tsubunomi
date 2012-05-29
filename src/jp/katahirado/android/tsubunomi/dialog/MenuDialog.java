@@ -51,7 +51,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_dialog);
         sharedManager = new SharedManager(activity.getSharedPreferences(Const.PREFERENCE_NAME,
-                activity.MODE_PRIVATE));
+                Activity.MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         menuList = (ListView) findViewById(R.id.menu_dialog_list);
         menuList.setOnItemClickListener(this);
