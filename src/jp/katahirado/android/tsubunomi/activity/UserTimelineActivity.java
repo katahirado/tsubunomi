@@ -57,7 +57,7 @@ public class UserTimelineActivity extends Activity
         Intent intent = getIntent();
         String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
         if (receiveName != null) {
-            query =receiveName;
+            query = receiveName;
             getUserTimelineTask();
         }
     }
@@ -115,12 +115,23 @@ public class UserTimelineActivity extends Activity
         if (adapter.getPosition(query) == -1) {
             adapter.add(query);
             screenNames.add(query);
+            screenNames = normalizeArrayList(screenNames);
             sharedManager.setScreenNames(screenNames);
         }
         tweetList = new ArrayList<Status>();
         TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
         UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
         task.execute(query);
+    }
+
+    private ArrayList<String> normalizeArrayList(ArrayList<String> arrayList) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (String s : arrayList) {
+            if (!list.contains(s)) {
+                list.add(s);
+            }
+        }
+        return list;
     }
 
 
