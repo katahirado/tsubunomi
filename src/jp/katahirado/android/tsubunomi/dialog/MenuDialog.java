@@ -111,7 +111,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         if (key.startsWith("@")) {
             startUserTimelineActivity(value);
         } else if (key.startsWith("#")) {
-            startSearchTimelineActivity(value);
+            startSearchTimelineActivity(key);
         } else {
             startExternalBrowser(value);
         }
