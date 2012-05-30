@@ -32,6 +32,7 @@ public class UserTimelineActivity extends Activity
     private InputFilter[] inputFilters = {new InnerFilter()};
     private ArrayAdapter<String> adapter;
     private ArrayList<String> screenNames;
+    private ArrayList<String> doubleScreenNames;
     private SharedManager sharedManager;
     private ArrayList<Status> tweetList;
     private String query = "";
@@ -46,6 +47,7 @@ public class UserTimelineActivity extends Activity
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         screenNames = sharedManager.getScreenNames();
+        doubleScreenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
 
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
@@ -66,6 +68,7 @@ public class UserTimelineActivity extends Activity
     protected void onResume() {
         super.onResume();
         screenNames = sharedManager.getScreenNames();
+        doubleScreenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
         screenNameText.setAdapter(adapter);
     }
@@ -114,26 +117,14 @@ public class UserTimelineActivity extends Activity
         }
         if (adapter.getPosition(query) == -1) {
             adapter.add(query);
-            screenNames.add(query);
-            screenNames = normalizeArrayList(screenNames);
-            sharedManager.setScreenNames(screenNames);
+            doubleScreenNames.add(query);
+            sharedManager.setScreenNames(doubleScreenNames);
         }
         tweetList = new ArrayList<Status>();
         TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
         UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
         task.execute(query);
     }
-
-    private ArrayList<String> normalizeArrayList(ArrayList<String> arrayList) {
-        ArrayList<String> list = new ArrayList<String>();
-        for (String s : arrayList) {
-            if (!list.contains(s)) {
-                list.add(s);
-            }
-        }
-        return list;
-    }
-
 
     public void setTimelineListAdapter(TweetListAdapter adapter, String name) {
         listView.setAdapter(adapter);
