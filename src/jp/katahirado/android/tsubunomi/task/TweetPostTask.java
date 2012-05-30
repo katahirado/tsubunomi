@@ -3,6 +3,7 @@ package jp.katahirado.android.tsubunomi.task;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -26,7 +27,7 @@ public class TweetPostTask extends AsyncTask<StatusUpdate, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(mActivity);
-        progressDialog.setMessage("投稿中");
+        progressDialog.setMessage(mActivity.getString(R.string.posting));
         progressDialog.show();
     }
 
