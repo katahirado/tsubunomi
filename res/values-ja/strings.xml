@@ -5,4 +5,5 @@
     <string name="retweet">公式リツイート</string>
     <string name="send_dm">DirectMessage</string>
     <string name="loading">取得中</string>
+    <string name="posting">投稿中</string>
 </resources>

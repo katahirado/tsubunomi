@@ -5,4 +5,5 @@
     <string name="retweet">ReTweet</string>
     <string name="send_dm">DirectMessage</string>
     <string name="loading">Loading...</string>
+    <string name="posting">Posting...</string>
 </resources>
