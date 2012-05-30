@@ -24,7 +24,7 @@ public class StatusDialog extends MenuDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getIncludeEntitiesMenu(status);
+        getIncludeEntitiesMenu(status.getUser().getScreenName(),status);
         menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
                 android.R.layout.simple_list_item_1, menuItems));
     }

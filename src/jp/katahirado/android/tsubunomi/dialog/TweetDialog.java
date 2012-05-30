@@ -26,7 +26,7 @@ public class TweetDialog extends MenuDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getIncludeEntitiesMenu(tweet);
+        getIncludeEntitiesMenu(tweet.getFromUser(), tweet);
         menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
                 android.R.layout.simple_list_item_1, menuItems));
     }

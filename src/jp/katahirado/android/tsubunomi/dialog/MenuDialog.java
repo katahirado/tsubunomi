@@ -135,17 +135,19 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         activity.startActivity(intent);
     }
 
-    protected void getIncludeEntitiesMenu(EntitySupport status) {
+    protected void getIncludeEntitiesMenu(String screenName, EntitySupport status) {
         List<String> resultList = new ArrayList<String>();
         resultList.add(activity.getString(R.string.reply));
         resultList.add(activity.getString(R.string.retweet));
         resultList.add(activity.getString(R.string.send_dm));
+        String atScreenName = "@" + screenName;
+        resultList.add(atScreenName);
         entitiesDictionary = new HashMap<String, String>();
         //各リストをDictionaryにセット
-        MediaEntity[] mediaEntities = status.getMediaEntities();
-        if (mediaEntities != null) {
-            for (MediaEntity entity : mediaEntities) {
-                entitiesDictionary.put(entity.getURL().toString(), entity.getMediaURL().toString());
+        UserMentionEntity[] userMentionEntities = status.getUserMentionEntities();
+        if (userMentionEntities != null) {
+            for (UserMentionEntity entity : userMentionEntities) {
+                entitiesDictionary.put("@" + entity.getScreenName(), entity.getScreenName());
             }
         }
         HashtagEntity[] hashTagEntities = status.getHashtagEntities();
@@ -160,10 +162,10 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 entitiesDictionary.put(entity.getURL().toString(), entity.getExpandedURL().toString());
             }
         }
-        UserMentionEntity[] userMentionEntities = status.getUserMentionEntities();
-        if (userMentionEntities != null) {
-            for (UserMentionEntity entity : userMentionEntities) {
-                entitiesDictionary.put("@" + entity.getScreenName(), entity.getScreenName());
+        MediaEntity[] mediaEntities = status.getMediaEntities();
+        if (mediaEntities != null) {
+            for (MediaEntity entity : mediaEntities) {
+                entitiesDictionary.put(entity.getURL().toString(), entity.getMediaURL().toString());
             }
         }
         Iterator<String> keySetIterator = entitiesDictionary.keySet().iterator();
@@ -172,6 +174,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 resultList.add(keySetIterator.next());
             }
         }
+        entitiesDictionary.put(atScreenName,screenName);
         menuItems = resultList.toArray(new String[resultList.size()]);
     }
 }
