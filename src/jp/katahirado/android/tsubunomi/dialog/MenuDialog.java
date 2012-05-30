@@ -20,6 +20,7 @@ import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import jp.katahirado.android.tsubunomi.activity.SendDMActivity;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
+import jp.katahirado.android.tsubunomi.task.RetweetTask;
 import twitter4j.*;
 
 import java.util.*;
@@ -75,19 +76,8 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position) {
                         Twitter twitter = tweetManager.connectTwitter();
-                        Status resultStatus;
-                        String statusMessage;
-                        try {
-                            resultStatus = twitter.retweetStatus(id);
-                        } catch (TwitterException e) {
-                            resultStatus = null;
-                        }
-                        if (resultStatus != null) {
-                            statusMessage = "リツイートしました";
-                        } else {
-                            statusMessage = "リツイート失敗";
-                        }
-                        Toast.makeText(activity, statusMessage, Toast.LENGTH_LONG).show();
+                        RetweetTask task = new RetweetTask(activity,id);
+                        task.execute(twitter);
                     }
                 })
                 .setNegativeButton("No", new OnClickListener() {
