@@ -36,8 +36,7 @@ public class SearchWordManageActivity extends Activity implements View.OnClickLi
         Button searchButton = (Button) findViewById(R.id.search_word_search_button);
         searchWordText = (EditText) findViewById(R.id.manage_search_word_text);
 
-        DBOpenHelper dbHelper = new DBOpenHelper(this);
-        searchWordDao = new SearchWordDao(dbHelper.getWritableDatabase());
+        searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
         wordList = searchWordDao.all();
         wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
 
@@ -57,7 +56,7 @@ public class SearchWordManageActivity extends Activity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.search_word_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchWordText.getText();
                 String query = builder.toString();

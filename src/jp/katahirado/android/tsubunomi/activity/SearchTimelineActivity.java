@@ -41,8 +41,7 @@ public class SearchTimelineActivity extends Activity
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
-        DBOpenHelper dbHelper = new DBOpenHelper(this);
-        searchWordDao = new SearchWordDao(dbHelper.getWritableDatabase());
+        searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
         wordList = searchWordDao.all();
         doubleWordList = searchWordDao.all();
         wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
@@ -107,7 +106,7 @@ public class SearchTimelineActivity extends Activity
                 getSearchTimelineTask();
                 break;
             case R.id.menu_search_word_manage:
-                Intent intent = new Intent(this,SearchWordManageActivity.class);
+                Intent intent = new Intent(this, SearchWordManageActivity.class);
                 startActivity(intent);
                 break;
         }
