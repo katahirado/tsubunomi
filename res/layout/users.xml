@@ -4,14 +4,8 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <ListView android:id="@android:id/list"
+    <ListView android:id="@+id/users_list"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"/>
-    <TextView
-            android:id="@android:id/empty"
-            android:text="まだ表示したユーザーはいません"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
 </LinearLayout>
 
