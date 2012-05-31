@@ -23,6 +23,7 @@ public class UsersActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
+        setTitle(getString(R.string.app_name)+" : 表示ユーザー一覧");
 
         SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         ArrayList<String> screenNames = sharedManager.getScreenNames();
