@@ -33,6 +33,7 @@ public class UserTimelineActivity extends Activity
     private SharedManager sharedManager;
     private ArrayList<Status> tweetList;
     private String query = "";
+    private Intent intent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class UserTimelineActivity extends Activity
         });
         screenNameText.setAdapter(nameAdapter);
         screenNameText.setFilters(inputFilters);
-        Intent intent = getIntent();
+        intent = getIntent();
         String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
         if (receiveName != null) {
             query = receiveName;
@@ -106,8 +107,12 @@ public class UserTimelineActivity extends Activity
             case R.id.menu_user_timeline_refresh:
                 getUserTimelineTask();
                 break;
+            case R.id.menu_user_timeline_users:
+                intent = new Intent(this, UsersActivity.class);
+                startActivity(intent);
+                break;
             case R.id.menu_screen_name_manage:
-                Intent intent = new Intent(this, ScreenNamesManageActivity.class);
+                intent = new Intent(this, ScreenNamesManageActivity.class);
                 startActivity(intent);
                 break;
         }
