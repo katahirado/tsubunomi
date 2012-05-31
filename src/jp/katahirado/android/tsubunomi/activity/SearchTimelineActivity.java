@@ -32,6 +32,7 @@ public class SearchTimelineActivity extends Activity
     private String query = "";
     private SharedManager sharedManager;
     private SearchWordDao searchWordDao;
+    private Intent intent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class SearchTimelineActivity extends Activity
         searchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
         searchText.setAdapter(wordAdapter);
-        Intent intent = getIntent();
+        intent = getIntent();
         String receiveHash = intent.getStringExtra(Const.HASH);
         if (receiveHash != null) {
             query = receiveHash;
@@ -105,8 +106,12 @@ public class SearchTimelineActivity extends Activity
             case R.id.menu_search_timeline_refresh:
                 getSearchTimelineTask();
                 break;
+            case R.id.menu_search_word_list:
+                intent = new Intent(this,SearchWordsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.menu_search_word_manage:
-                Intent intent = new Intent(this, SearchWordManageActivity.class);
+                intent = new Intent(this, SearchWordManageActivity.class);
                 startActivity(intent);
                 break;
         }
