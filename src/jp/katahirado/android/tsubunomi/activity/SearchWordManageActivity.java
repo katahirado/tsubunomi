@@ -3,6 +3,7 @@ package jp.katahirado.android.tsubunomi.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -54,6 +55,33 @@ public class SearchWordManageActivity extends Activity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.search_word_search_button:
+                SpannableStringBuilder builder = (SpannableStringBuilder) searchWordText.getText();
+                String query = builder.toString();
+                if (query.length() == 0) {
+                    return;
+                }
+                wordList = wordListFilter(query);
+                wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
+                listView.setAdapter(wordAdapter);
+                hideIME();
+                searchWordText.setText("");
+                break;
+        }
+    }
+
+    private ArrayList<String> wordListFilter(String query) {
+        if (query.equals("*")) {
+            return searchWordDao.all();
+        }
+        ArrayList<String> list = new ArrayList<String>();
+        for (String s : wordList) {
+            if (s.toLowerCase().contains(query.toLowerCase())) {
+                list.add(s);
+            }
+        }
+        return list;
     }
 
     @Override

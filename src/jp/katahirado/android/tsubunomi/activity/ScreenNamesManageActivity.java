@@ -27,7 +27,6 @@ public class ScreenNamesManageActivity extends Activity
     private ArrayList<String> screenNames;
     private SharedManager sharedManager;
     private EditText screenNameText;
-    private String query;
     private ListView manageList;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +61,11 @@ public class ScreenNamesManageActivity extends Activity
         switch (view.getId()) {
             case R.id.screen_name_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) screenNameText.getText();
-                query = builder.toString();
+                String query = builder.toString();
                 if (query.length() == 0) {
                     return;
                 }
-                screenNames = screenNamesFilter();
+                screenNames = screenNamesFilter(query);
                 adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
                 adapter.sort(new LowerCaseComparator());
                 manageList.setAdapter(adapter);
@@ -83,7 +82,7 @@ public class ScreenNamesManageActivity extends Activity
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private ArrayList<String> screenNamesFilter() {
+    private ArrayList<String> screenNamesFilter(String query) {
         if (query.equals("*")) {
             return sharedManager.getScreenNames();
         }
