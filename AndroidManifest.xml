@@ -52,5 +52,6 @@
                   android:theme="@android:style/Theme.Light"/>
         <activity android:name=".activity.ScreenNamesManageActivity"
                   android:theme="@android:style/Theme.Light"/>
+        <activity android:name=".activity.SearchWordManageActivity"/>
     </application>
 </manifest>
