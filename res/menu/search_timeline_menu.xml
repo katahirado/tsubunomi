@@ -4,4 +4,7 @@
     <item android:id="@+id/menu_search_timeline_refresh"
           android:icon="@drawable/ic_menu_refresh"
           android:title="Reload"/>
+    <item android:id="@+id/menu_search_word_manage"
+          android:icon="@android:drawable/ic_menu_manage"
+          android:title="Manage"/>
 </menu>
