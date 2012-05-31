@@ -1,7 +1,9 @@
 package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.MotionEvent;
@@ -71,6 +73,28 @@ public class SearchWordManageActivity extends Activity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        final String word = wordList.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(word + " を削除してもよろしいですか?").setCancelable(false);
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                wordAdapter.remove(word);
+                wordList.remove(word);
+                searchWordDao.delete(word);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
     private ArrayList<String> wordListFilter(String query) {
         if (query.equals("*")) {
             return searchWordDao.all();
@@ -82,10 +106,6 @@ public class SearchWordManageActivity extends Activity implements View.OnClickLi
             }
         }
         return list;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
     }
 
     private void hideIME() {
