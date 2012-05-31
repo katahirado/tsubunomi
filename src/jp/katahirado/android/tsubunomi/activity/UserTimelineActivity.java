@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
@@ -54,6 +51,13 @@ public class UserTimelineActivity extends Activity
         Button uSearchButton = (Button) findViewById(R.id.u_search_button);
         uSearchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideIME();
+                return false;
+            }
+        });
         screenNameText.setAdapter(adapter);
         screenNameText.setFilters(inputFilters);
         Intent intent = getIntent();
@@ -128,10 +132,15 @@ public class UserTimelineActivity extends Activity
 
     public void setTimelineListAdapter(TweetListAdapter adapter, String name) {
         listView.setAdapter(adapter);
+        hideIME();
+        screenNameText.setText("");
+        listView.requestFocus();
+        setTitle(getString(R.string.app_name) + " : User : " + name);
+    }
+
+    private void hideIME() {
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(screenNameText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        screenNameText.setText("");
-        setTitle(getString(R.string.app_name) + " : User : " + name);
     }
 
     private class InnerFilter implements InputFilter {

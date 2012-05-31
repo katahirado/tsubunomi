@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.*;
@@ -30,6 +27,7 @@ public class SearchTimelineActivity extends Activity
     private TweetManager tweetManager;
     private ArrayAdapter<String> adapter;
     private ArrayList<Tweet> tweetList;
+    private ArrayList<String> queryList;
     private String query = "";
     private SharedManager sharedManager;
 
@@ -41,6 +39,7 @@ public class SearchTimelineActivity extends Activity
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
+//        queryList = doSQLite;
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
 
         searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
@@ -54,6 +53,13 @@ public class SearchTimelineActivity extends Activity
             query = receiveHash;
             getSearchTimelineTask();
         }
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideIME();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -117,10 +123,15 @@ public class SearchTimelineActivity extends Activity
 
     public void setSearchListAdapter(SearchListAdapter adapter, String q) {
         listView.setAdapter(adapter);
+        hideIME();
+        searchText.setText("");
+        listView.requestFocus();
+        setTitle(getString(R.string.app_name) + " : Search : " + q);
+    }
+
+    private void hideIME() {
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        searchText.setText("");
-        setTitle(getString(R.string.app_name) + " : Search : " + q);
     }
 
 }
