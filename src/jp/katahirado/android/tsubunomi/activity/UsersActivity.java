@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.LowerCaseComparator;
+import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class UsersActivity extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.users);
 
         SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         ArrayList<String> screenNames = sharedManager.getScreenNames();
