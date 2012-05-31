@@ -25,11 +25,13 @@ public class SearchTimelineActivity extends Activity
     private AutoCompleteTextView searchText;
     private ListView listView;
     private TweetManager tweetManager;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> wordAdapter;
     private ArrayList<Tweet> tweetList;
-    private ArrayList<String> queryList;
+    private ArrayList<String> wordList;
+    private ArrayList<String> doubleWordList;
     private String query = "";
     private SharedManager sharedManager;
+    private SearchWordDao searchWordDao;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +41,17 @@ public class SearchTimelineActivity extends Activity
         listView = (ListView) findViewById(R.id.search_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
-//        queryList = doSQLite;
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+        DBOpenHelper dbHelper = new DBOpenHelper(this);
+        searchWordDao = new SearchWordDao(dbHelper.getWritableDatabase());
+        wordList = searchWordDao.all();
+        doubleWordList = searchWordDao.all();
+        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
 
         searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
-        searchText.setAdapter(adapter);
+        searchText.setAdapter(wordAdapter);
         Intent intent = getIntent();
         String receiveHash = intent.getStringExtra(Const.HASH);
         if (receiveHash != null) {
@@ -60,6 +65,15 @@ public class SearchTimelineActivity extends Activity
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        wordList = searchWordDao.all();
+        doubleWordList = searchWordDao.all();
+        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
+        searchText.setAdapter(wordAdapter);
     }
 
     @Override
@@ -100,11 +114,19 @@ public class SearchTimelineActivity extends Activity
         if (query.length() == 0) {
             return;
         }
-        adapter.add(query);
+        if (wordAdapter.getPosition(query) == -1) {
+            wordAdapter.add(query);
+            doubleWordList.add(query);
+            searchWordDao.insert(escapeQueryString(query));
+        }
         tweetList = new ArrayList<Tweet>();
         SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
         SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
         task.execute(buildQuery(query));
+    }
+
+    private String escapeQueryString(String s) {
+        return s.replace("'", "''");
     }
 
     private Query buildQuery(String s) {
@@ -133,5 +155,4 @@ public class SearchTimelineActivity extends Activity
         InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 }
