@@ -3,7 +3,7 @@ package jp.katahirado.android.tsubunomi.task;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import jp.katahirado.android.tsubunomi.R;
-import jp.katahirado.android.tsubunomi.SearchListAdapter;
+import jp.katahirado.android.tsubunomi.adapter.SearchListAdapter;
 import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import twitter4j.Query;

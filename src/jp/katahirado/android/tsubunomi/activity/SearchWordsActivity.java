@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import jp.katahirado.android.tsubunomi.Const;
-import jp.katahirado.android.tsubunomi.DBOpenHelper;
+import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.R;
-import jp.katahirado.android.tsubunomi.SearchWordDao;
+import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package jp.katahirado.android.tsubunomi;
+package jp.katahirado.android.tsubunomi.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
