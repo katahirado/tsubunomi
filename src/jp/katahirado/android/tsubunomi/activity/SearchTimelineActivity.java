@@ -106,6 +106,10 @@ public class SearchTimelineActivity extends Activity
             case R.id.menu_search_timeline_refresh:
                 getSearchTimelineTask();
                 break;
+            case R.id.menu_search_word_manage:
+                Intent intent = new Intent(this,SearchWordManageActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
