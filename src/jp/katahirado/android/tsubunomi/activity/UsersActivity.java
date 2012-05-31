@@ -1,6 +1,7 @@
 package jp.katahirado.android.tsubunomi.activity;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,12 +17,14 @@ import java.util.ArrayList;
  * Author: yuichi_katahira
  */
 public class UsersActivity extends ListActivity {
+    private ArrayAdapter<String> adapter;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         ArrayList<String> screenNames = sharedManager.getScreenNames();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
         adapter.sort(new LowerCaseComparator());
         setListAdapter(adapter);
     }
@@ -29,6 +32,8 @@ public class UsersActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        String s = (String) l.getAdapter().getItem(position);
+        Intent intent = new Intent(this,UserTimelineActivity.class);
+        intent.putExtra(Const.SCREEN_NAME,adapter.getItem(position));
+        startActivity(intent);
     }
 }
