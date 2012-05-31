@@ -27,7 +27,7 @@ public class UserTimelineActivity extends Activity
     private ListView listView;
     private TweetManager tweetManager;
     private InputFilter[] inputFilters = {new InnerFilter()};
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> nameAdapter;
     private ArrayList<String> screenNames;
     private ArrayList<String> doubleScreenNames;
     private SharedManager sharedManager;
@@ -38,14 +38,13 @@ public class UserTimelineActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.usertimeline);
 
-
         setTitle(getString(R.string.app_name) + " : User");
         listView = (ListView) findViewById(R.id.tweet_list);
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         screenNames = sharedManager.getScreenNames();
         doubleScreenNames = sharedManager.getScreenNames();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
+        nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
 
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
         Button uSearchButton = (Button) findViewById(R.id.u_search_button);
@@ -58,7 +57,7 @@ public class UserTimelineActivity extends Activity
                 return false;
             }
         });
-        screenNameText.setAdapter(adapter);
+        screenNameText.setAdapter(nameAdapter);
         screenNameText.setFilters(inputFilters);
         Intent intent = getIntent();
         String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
@@ -73,8 +72,8 @@ public class UserTimelineActivity extends Activity
         super.onResume();
         screenNames = sharedManager.getScreenNames();
         doubleScreenNames = sharedManager.getScreenNames();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
-        screenNameText.setAdapter(adapter);
+        nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
+        screenNameText.setAdapter(nameAdapter);
     }
 
     @Override
@@ -119,8 +118,8 @@ public class UserTimelineActivity extends Activity
         if (query.length() == 0) {
             return;
         }
-        if (adapter.getPosition(query) == -1) {
-            adapter.add(query);
+        if (nameAdapter.getPosition(query) == -1) {
+            nameAdapter.add(query);
             doubleScreenNames.add(query);
             sharedManager.setScreenNames(doubleScreenNames);
         }
