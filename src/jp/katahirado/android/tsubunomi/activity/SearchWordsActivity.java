@@ -1,14 +1,17 @@
 package jp.katahirado.android.tsubunomi.activity;
 
-import android.app.ListActivity;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 import jp.katahirado.android.tsubunomi.Const;
-import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
 
 import java.util.ArrayList;
@@ -17,25 +20,82 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class SearchWordsActivity extends ListActivity {
+public class SearchWordsActivity extends Activity
+        implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ArrayAdapter<String> adapter;
+    private EditText searchedWordText;
+    private ArrayList<String> searchedWordList;
+    private ListView listView;
+    private ArrayList<String> originalSearchedWordList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_words);
-        setTitle(getString(R.string.app_name)+" : 検索履歴一覧");
+        setTitle(getString(R.string.app_name) + " : 検索履歴一覧");
+
+        listView = (ListView) findViewById(R.id.searched_word_list);
+        searchedWordText = (EditText) findViewById(R.id.searched_word_text);
+        Button button = (Button) findViewById(R.id.searched_word_search_button);
 
         SearchWordDao searchWordDao = new SearchWordDao(new DBOpenHelper(this).getReadableDatabase());
-        ArrayList<String> searchWordList = searchWordDao.all();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchWordList);
-        setListAdapter(adapter);
+        searchedWordList = searchWordDao.all();
+        originalSearchedWordList = searchWordDao.all();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+        button.setOnClickListener(this);
+        listView.requestFocus();
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideIME();
+                return false;
+            }
+        });
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.searched_word_search_button:
+                SpannableStringBuilder builder = (SpannableStringBuilder) searchedWordText.getText();
+                String query = builder.toString();
+                if (query.length() == 0) {
+                    return;
+                }
+                searchedWordList = wordListFilter(query);
+                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
+                listView.setAdapter(adapter);
+                hideIME();
+                searchedWordText.setText("");
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         Intent intent = new Intent(this, SearchTimelineActivity.class);
         intent.putExtra(Const.HASH, adapter.getItem(position));
         startActivity(intent);
+    }
+
+    private ArrayList<String> wordListFilter(String query) {
+        if (query.equals("*")) {
+            return originalSearchedWordList;
+        }
+        ArrayList<String> list = new ArrayList<String>();
+        for (String s : originalSearchedWordList) {
+            if (s.toLowerCase().contains(query.toLowerCase())) {
+                list.add(s);
+            }
+        }
+        return list;
+    }
+
+    private void hideIME() {
+        InputMethodManager manager =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(searchedWordText.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

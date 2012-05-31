@@ -4,13 +4,20 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <ListView android:id="@android:id/list"
+    <LinearLayout android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent">
+        <EditText android:id="@+id/searched_word_text"
+                  android:minWidth="260dip"
+                  android:textColor="@android:color/black"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"/>
+        <Button android:id="@+id/searched_word_search_button"
+                android:text="検索"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+    </LinearLayout>
+    <ListView android:id="@+id/searched_word_list"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"/>
-    <TextView
-            android:id="@android:id/empty"
-            android:text="検索ワードをまだ入力していません"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
 </LinearLayout>

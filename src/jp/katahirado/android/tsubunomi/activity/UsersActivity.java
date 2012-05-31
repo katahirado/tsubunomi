@@ -26,7 +26,6 @@ public class UsersActivity extends Activity
     private EditText userText;
     private ArrayList<String> screenNames;
     private ListView listView;
-    private SharedManager sharedManager;
     private ArrayList<String> originalScreenNames;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class UsersActivity extends Activity
         Button button = (Button) findViewById(R.id.users_screen_name_search_button);
         userText = (EditText) findViewById(R.id.users_screen_name_text);
 
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         screenNames = sharedManager.getScreenNames();
         originalScreenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
