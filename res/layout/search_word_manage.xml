@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <LinearLayout android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent">
+        <EditText android:id="@+id/manage_search_word_text"
+                  android:minWidth="260dip"
+                  android:textColor="@android:color/black"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"/>
+        <Button android:id="@+id/search_word_search_button"
+                android:text="検索"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+    </LinearLayout>
+    <ListView
+            android:id="@+id/search_word_manage_list"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"/>
+</LinearLayout>
