@@ -28,6 +28,7 @@ public class ScreenNamesManageActivity extends Activity
     private SharedManager sharedManager;
     private EditText screenNameText;
     private ListView manageList;
+    private ArrayList<String> originalScreenNames;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class ScreenNamesManageActivity extends Activity
 
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         screenNames = sharedManager.getScreenNames();
+        originalScreenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
 
         manageList = (ListView) findViewById(R.id.screen_name_manage_list);
@@ -87,7 +89,7 @@ public class ScreenNamesManageActivity extends Activity
             return sharedManager.getScreenNames();
         }
         ArrayList<String> list = new ArrayList<String>();
-        for (String s : screenNames) {
+        for (String s : originalScreenNames) {
             if (s.toLowerCase().startsWith(query.toLowerCase())) {
                 list.add(s);
             }
@@ -105,6 +107,7 @@ public class ScreenNamesManageActivity extends Activity
             public void onClick(DialogInterface dialog, int i) {
                 adapter.remove(screenName);
                 screenNames.remove(screenName);
+                originalScreenNames.remove(screenName);
                 ArrayList<String> names = sharedManager.getScreenNames();
                 names.remove(screenName);
                 sharedManager.setScreenNames(names);
