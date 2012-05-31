@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.LowerCaseComparator;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -117,12 +117,5 @@ public class ScreenNamesManageActivity extends Activity
             }
         });
         builder.create().show();
-    }
-
-    private class LowerCaseComparator implements Comparator<String> {
-        @Override
-        public int compare(String s, String s1) {
-            return s.compareToIgnoreCase(s1);
-        }
     }
 }
