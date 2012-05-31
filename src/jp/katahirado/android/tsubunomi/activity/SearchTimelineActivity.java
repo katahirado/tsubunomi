@@ -121,16 +121,12 @@ public class SearchTimelineActivity extends Activity
         if (wordAdapter.getPosition(query) == -1) {
             wordAdapter.add(query);
             doubleWordList.add(query);
-            searchWordDao.insert(escapeQueryString(query));
+            searchWordDao.insert(query);
         }
         tweetList = new ArrayList<Tweet>();
         SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
         SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
         task.execute(buildQuery(query));
-    }
-
-    private String escapeQueryString(String s) {
-        return s.replace("'", "''");
     }
 
     private Query buildQuery(String s) {
