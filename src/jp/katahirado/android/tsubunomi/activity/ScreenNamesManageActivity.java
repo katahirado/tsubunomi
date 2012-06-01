@@ -36,7 +36,7 @@ public class ScreenNamesManageActivity extends Activity
 
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         screenNames = sharedManager.getScreenNames();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sharedManager.getScreenNames());
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
 
         manageList = (ListView) findViewById(R.id.screen_name_manage_list);
         Button searchButton = (Button) findViewById(R.id.screen_name_search_button);
