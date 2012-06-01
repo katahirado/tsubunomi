@@ -25,7 +25,6 @@ public class UsersActivity extends Activity
     private EditText userText;
     private ArrayList<String> screenNames;
     private ListView listView;
-    private ArrayList<String> originalScreenNames;
     private SharedManager sharedManager;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -90,8 +89,8 @@ public class UsersActivity extends Activity
                 if (query.length() == 0) {
                     return;
                 }
-                screenNames = screenNamesFilter(query);
-                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
+                adapter =
+                        new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNamesFilter(query));
                 adapter.sort(new LowerCaseComparator());
                 listView.setAdapter(adapter);
                 hideIME();
@@ -102,7 +101,6 @@ public class UsersActivity extends Activity
 
     private void setListViewAdapter() {
         screenNames = sharedManager.getScreenNames();
-        originalScreenNames = sharedManager.getScreenNames();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
         adapter.sort(new LowerCaseComparator());
         listView.setAdapter(adapter);
@@ -110,10 +108,10 @@ public class UsersActivity extends Activity
 
     private ArrayList<String> screenNamesFilter(String query) {
         if (query.equals("*")) {
-            return originalScreenNames;
+            return screenNames;
         }
         ArrayList<String> list = new ArrayList<String>();
-        for (String s : originalScreenNames) {
+        for (String s : screenNames) {
             if (s.toLowerCase().startsWith(query.toLowerCase())) {
                 list.add(s);
             }

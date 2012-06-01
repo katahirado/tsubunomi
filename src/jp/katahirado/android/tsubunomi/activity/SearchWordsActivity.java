@@ -25,7 +25,6 @@ public class SearchWordsActivity extends Activity
     private EditText searchedWordText;
     private ArrayList<String> searchedWordList;
     private ListView listView;
-    private ArrayList<String> originalSearchedWordList;
     private SearchWordDao searchWordDao;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,7 @@ public class SearchWordsActivity extends Activity
                 startActivity(intent);
                 break;
         }
-        return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -84,8 +83,7 @@ public class SearchWordsActivity extends Activity
                 if (query.length() == 0) {
                     return;
                 }
-                searchedWordList = wordListFilter(query);
-                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
+                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
                 listView.setAdapter(adapter);
                 hideIME();
                 searchedWordText.setText("");
@@ -102,17 +100,16 @@ public class SearchWordsActivity extends Activity
 
     private void setListViewAdapter() {
         searchedWordList = searchWordDao.all();
-        originalSearchedWordList = searchWordDao.all();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
         listView.setAdapter(adapter);
     }
 
     private ArrayList<String> wordListFilter(String query) {
         if (query.equals("*")) {
-            return originalSearchedWordList;
+            return searchedWordList;
         }
         ArrayList<String> list = new ArrayList<String>();
-        for (String s : originalSearchedWordList) {
+        for (String s : searchedWordList) {
             if (s.toLowerCase().contains(query.toLowerCase())) {
                 list.add(s);
             }
