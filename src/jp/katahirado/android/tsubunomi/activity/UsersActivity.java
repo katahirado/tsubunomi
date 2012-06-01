@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import jp.katahirado.android.tsubunomi.Const;
@@ -52,6 +51,24 @@ public class UsersActivity extends Activity
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.users_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_screen_name_manage:
+                Intent intent = new Intent(this, ScreenNamesManageActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

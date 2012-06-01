@@ -112,10 +112,6 @@ public class UserTimelineActivity extends Activity
                 intent = new Intent(this, UsersActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menu_screen_name_manage:
-                intent = new Intent(this, ScreenNamesManageActivity.class);
-                startActivity(intent);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
