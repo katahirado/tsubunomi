@@ -34,9 +34,9 @@ public class UserTimelineActivity extends Activity
     private ArrayAdapter<String> nameAdapter;
     private ArrayList<String> doubleScreenNames;
     private SharedManager sharedManager;
-    private ArrayList<Status> tweetList;
     private String query = "";
     private Intent intent;
+    private TweetListAdapter tweetListAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class UserTimelineActivity extends Activity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Status status = tweetList.get(position);
+        Status status = tweetListAdapter.getItem(position);
         new StatusDialog(this, sharedManager, tweetManager, status).show();
     }
 
@@ -129,14 +129,15 @@ public class UserTimelineActivity extends Activity
             doubleScreenNames.add(query);
             sharedManager.setScreenNames(doubleScreenNames);
         }
-        tweetList = new ArrayList<Status>();
+        ArrayList<Status> tweetList = new ArrayList<Status>();
         TweetListAdapter tweetListAdapter = new TweetListAdapter(this, tweetList);
         UserTimelineTask task = new UserTimelineTask(this, tweetManager, tweetListAdapter);
         task.execute(query);
     }
 
     public void setTimelineListAdapter(TweetListAdapter adapter, String name) {
-        listView.setAdapter(adapter);
+        tweetListAdapter = adapter;
+        listView.setAdapter(tweetListAdapter);
         hideIME();
         screenNameText.setText("");
         listView.requestFocus();

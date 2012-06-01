@@ -32,11 +32,11 @@ public class SearchTimelineActivity extends Activity
     private ListView listView;
     private TweetManager tweetManager;
     private ArrayAdapter<String> wordAdapter;
-    private ArrayList<Tweet> tweetList;
     private ArrayList<String> doubleWordList;
     private String query = "";
     private SharedManager sharedManager;
     private SearchWordDao searchWordDao;
+    private SearchListAdapter searchListAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class SearchTimelineActivity extends Activity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Tweet tweet = tweetList.get(position);
+        Tweet tweet = searchListAdapter.getItem(position);
         new TweetDialog(this, sharedManager, tweetManager, tweet).show();
     }
 
@@ -129,7 +129,7 @@ public class SearchTimelineActivity extends Activity
             doubleWordList.add(query);
             searchWordDao.insert(query);
         }
-        tweetList = new ArrayList<Tweet>();
+        ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
         SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
         SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
         task.execute(buildQuery(query));
@@ -150,7 +150,8 @@ public class SearchTimelineActivity extends Activity
     }
 
     public void setSearchListAdapter(SearchListAdapter adapter, String q) {
-        listView.setAdapter(adapter);
+        searchListAdapter = adapter;
+        listView.setAdapter(searchListAdapter);
         hideIME();
         searchText.setText("");
         listView.requestFocus();
