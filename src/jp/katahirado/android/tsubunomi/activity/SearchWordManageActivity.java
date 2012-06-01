@@ -10,8 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
 
 import java.util.ArrayList;
@@ -20,7 +20,8 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class SearchWordManageActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class SearchWordManageActivity extends Activity
+        implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ListView listView;
     private SearchWordDao searchWordDao;
     private ArrayList<String> wordList;

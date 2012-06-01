@@ -33,12 +33,10 @@ public class SearchTimelineActivity extends Activity
     private TweetManager tweetManager;
     private ArrayAdapter<String> wordAdapter;
     private ArrayList<Tweet> tweetList;
-    private ArrayList<String> wordList;
     private ArrayList<String> doubleWordList;
     private String query = "";
     private SharedManager sharedManager;
     private SearchWordDao searchWordDao;
-    private Intent intent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +62,7 @@ public class SearchTimelineActivity extends Activity
             }
         });
 
-        intent = getIntent();
-        String receiveHash = intent.getStringExtra(Const.HASH);
+        String receiveHash = getIntent().getStringExtra(Const.HASH);
         if (receiveHash != null) {
             query = receiveHash;
             getSearchTimelineTask();
@@ -109,7 +106,7 @@ public class SearchTimelineActivity extends Activity
                 getSearchTimelineTask();
                 break;
             case R.id.menu_search_word_list:
-                intent = new Intent(this, SearchWordsActivity.class);
+                Intent intent = new Intent(this, SearchWordsActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -117,7 +114,7 @@ public class SearchTimelineActivity extends Activity
     }
 
     private void setWordAdapter() {
-        wordList = searchWordDao.all();
+        ArrayList<String> wordList = searchWordDao.all();
         doubleWordList = searchWordDao.all();
         wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
         searchText.setAdapter(wordAdapter);

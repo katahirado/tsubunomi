@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
@@ -76,7 +75,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position) {
                         Twitter twitter = tweetManager.connectTwitter();
-                        RetweetTask task = new RetweetTask(activity,id);
+                        RetweetTask task = new RetweetTask(activity, id);
                         task.execute(twitter);
                     }
                 })
@@ -164,7 +163,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 resultList.add(keySetIterator.next());
             }
         }
-        entitiesDictionary.put(atScreenName,screenName);
+        entitiesDictionary.put(atScreenName, screenName);
         menuItems = resultList.toArray(new String[resultList.size()]);
     }
 }

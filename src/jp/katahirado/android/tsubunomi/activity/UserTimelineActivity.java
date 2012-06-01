@@ -32,7 +32,6 @@ public class UserTimelineActivity extends Activity
     private TweetManager tweetManager;
     private InputFilter[] inputFilters = {new InnerFilter()};
     private ArrayAdapter<String> nameAdapter;
-    private ArrayList<String> screenNames;
     private ArrayList<String> doubleScreenNames;
     private SharedManager sharedManager;
     private ArrayList<Status> tweetList;
@@ -115,7 +114,7 @@ public class UserTimelineActivity extends Activity
     }
 
     private void setNameAdapter() {
-        screenNames = sharedManager.getScreenNames();
+        ArrayList<String> screenNames = sharedManager.getScreenNames();
         doubleScreenNames = sharedManager.getScreenNames();
         nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
         screenNameText.setAdapter(nameAdapter);
