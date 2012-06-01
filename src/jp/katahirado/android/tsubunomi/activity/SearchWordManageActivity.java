@@ -27,6 +27,7 @@ public class SearchWordManageActivity extends Activity
     private ArrayList<String> wordList;
     private ArrayAdapter<String> wordAdapter;
     private EditText searchWordText;
+    private ArrayList<String> originalWordList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class SearchWordManageActivity extends Activity
 
         searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
         wordList = searchWordDao.all();
+        originalWordList = searchWordDao.all();
         wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
 
         searchButton.setOnClickListener(this);
@@ -64,8 +66,8 @@ public class SearchWordManageActivity extends Activity
                 if (query.length() == 0) {
                     return;
                 }
-                wordAdapter =
-                        new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
+                wordList = wordListFilter(query);
+                wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
                 listView.setAdapter(wordAdapter);
                 hideIME();
                 searchWordText.setText("");
@@ -83,6 +85,7 @@ public class SearchWordManageActivity extends Activity
             public void onClick(DialogInterface dialog, int i) {
                 wordAdapter.remove(word);
                 wordList.remove(word);
+                originalWordList.remove(word);
                 searchWordDao.delete(word);
             }
         });
@@ -100,7 +103,7 @@ public class SearchWordManageActivity extends Activity
             return searchWordDao.all();
         }
         ArrayList<String> list = new ArrayList<String>();
-        for (String s : wordList) {
+        for (String s : originalWordList) {
             if (s.toLowerCase().contains(query.toLowerCase())) {
                 list.add(s);
             }
