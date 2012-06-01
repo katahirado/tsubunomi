@@ -10,7 +10,10 @@ import android.text.Spanned;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.adapter.TweetListAdapter;
 import jp.katahirado.android.tsubunomi.dialog.StatusDialog;
 import jp.katahirado.android.tsubunomi.task.UserTimelineTask;
@@ -42,14 +45,14 @@ public class UserTimelineActivity extends Activity
 
         setTitle(getString(R.string.app_name) + " : User");
         listView = (ListView) findViewById(R.id.tweet_list);
-        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        tweetManager = new TweetManager(sharedManager);
-        screenNames = sharedManager.getScreenNames();
-        doubleScreenNames = sharedManager.getScreenNames();
-        nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
-
         screenNameText = (AutoCompleteTextView) findViewById(R.id.screen_name_text);
         Button uSearchButton = (Button) findViewById(R.id.u_search_button);
+
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        tweetManager = new TweetManager(sharedManager);
+        setNameAdapter();
+        screenNameText.setFilters(inputFilters);
+
         uSearchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
         listView.setOnTouchListener(new View.OnTouchListener() {
@@ -59,8 +62,6 @@ public class UserTimelineActivity extends Activity
                 return false;
             }
         });
-        screenNameText.setAdapter(nameAdapter);
-        screenNameText.setFilters(inputFilters);
         intent = getIntent();
         String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
         if (receiveName != null) {
@@ -72,10 +73,7 @@ public class UserTimelineActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        screenNames = sharedManager.getScreenNames();
-        doubleScreenNames = sharedManager.getScreenNames();
-        nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
-        screenNameText.setAdapter(nameAdapter);
+        setNameAdapter();
     }
 
     @Override
@@ -114,6 +112,13 @@ public class UserTimelineActivity extends Activity
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setNameAdapter() {
+        screenNames = sharedManager.getScreenNames();
+        doubleScreenNames = sharedManager.getScreenNames();
+        nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, screenNames);
+        screenNameText.setAdapter(nameAdapter);
     }
 
     private void getUserTimelineTask() {

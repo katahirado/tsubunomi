@@ -26,6 +26,7 @@ public class UsersActivity extends Activity
     private ArrayList<String> screenNames;
     private ListView listView;
     private ArrayList<String> originalScreenNames;
+    private SharedManager sharedManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +36,8 @@ public class UsersActivity extends Activity
         Button button = (Button) findViewById(R.id.users_screen_name_search_button);
         userText = (EditText) findViewById(R.id.users_screen_name_text);
 
-        SharedManager sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
-        screenNames = sharedManager.getScreenNames();
-        originalScreenNames = sharedManager.getScreenNames();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
-        adapter.sort(new LowerCaseComparator());
-        listView.setAdapter(adapter);
+        sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
+        setListViewAdapter();
         listView.setOnItemClickListener(this);
         button.setOnClickListener(this);
         listView.requestFocus();
@@ -51,6 +48,12 @@ public class UsersActivity extends Activity
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setListViewAdapter();
     }
 
     @Override
@@ -95,6 +98,14 @@ public class UsersActivity extends Activity
                 userText.setText("");
                 break;
         }
+    }
+
+    private void setListViewAdapter() {
+        screenNames = sharedManager.getScreenNames();
+        originalScreenNames = sharedManager.getScreenNames();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, screenNames);
+        adapter.sort(new LowerCaseComparator());
+        listView.setAdapter(adapter);
     }
 
     private ArrayList<String> screenNamesFilter(String query) {

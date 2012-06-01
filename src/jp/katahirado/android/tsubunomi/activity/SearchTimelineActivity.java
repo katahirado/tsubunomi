@@ -8,7 +8,10 @@ import android.text.SpannableStringBuilder;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import jp.katahirado.android.tsubunomi.*;
+import jp.katahirado.android.tsubunomi.Const;
+import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.SharedManager;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.adapter.SearchListAdapter;
 import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
@@ -43,24 +46,16 @@ public class SearchTimelineActivity extends Activity
 
         setTitle(getString(R.string.app_name) + " : Search");
         listView = (ListView) findViewById(R.id.search_list);
+        searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
+        Button searchButton = (Button) findViewById(R.id.search_button);
+
         sharedManager = new SharedManager(getSharedPreferences(Const.PREFERENCE_NAME, MODE_PRIVATE));
         tweetManager = new TweetManager(sharedManager);
         searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
-        wordList = searchWordDao.all();
-        doubleWordList = searchWordDao.all();
-        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
+        setWordAdapter();
 
-        searchText = (AutoCompleteTextView) findViewById(R.id.search_text);
-        Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
         listView.setOnItemClickListener(this);
-        searchText.setAdapter(wordAdapter);
-        intent = getIntent();
-        String receiveHash = intent.getStringExtra(Const.HASH);
-        if (receiveHash != null) {
-            query = receiveHash;
-            getSearchTimelineTask();
-        }
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -68,15 +63,19 @@ public class SearchTimelineActivity extends Activity
                 return false;
             }
         });
+
+        intent = getIntent();
+        String receiveHash = intent.getStringExtra(Const.HASH);
+        if (receiveHash != null) {
+            query = receiveHash;
+            getSearchTimelineTask();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        wordList = searchWordDao.all();
-        doubleWordList = searchWordDao.all();
-        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
-        searchText.setAdapter(wordAdapter);
+        setWordAdapter();
     }
 
     @Override
@@ -110,11 +109,18 @@ public class SearchTimelineActivity extends Activity
                 getSearchTimelineTask();
                 break;
             case R.id.menu_search_word_list:
-                intent = new Intent(this,SearchWordsActivity.class);
+                intent = new Intent(this, SearchWordsActivity.class);
                 startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setWordAdapter() {
+        wordList = searchWordDao.all();
+        doubleWordList = searchWordDao.all();
+        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wordList);
+        searchText.setAdapter(wordAdapter);
     }
 
     private void getSearchTimelineTask() {

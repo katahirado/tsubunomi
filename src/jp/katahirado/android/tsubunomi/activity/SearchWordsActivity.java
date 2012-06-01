@@ -26,6 +26,7 @@ public class SearchWordsActivity extends Activity
     private ArrayList<String> searchedWordList;
     private ListView listView;
     private ArrayList<String> originalSearchedWordList;
+    private SearchWordDao searchWordDao;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +37,8 @@ public class SearchWordsActivity extends Activity
         searchedWordText = (EditText) findViewById(R.id.searched_word_text);
         Button button = (Button) findViewById(R.id.searched_word_search_button);
 
-        SearchWordDao searchWordDao = new SearchWordDao(new DBOpenHelper(this).getReadableDatabase());
-        searchedWordList = searchWordDao.all();
-        originalSearchedWordList = searchWordDao.all();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
-        listView.setAdapter(adapter);
+        searchWordDao = new SearchWordDao(new DBOpenHelper(this).getReadableDatabase());
+        setListViewAdapter();
         listView.setOnItemClickListener(this);
         button.setOnClickListener(this);
         listView.requestFocus();
@@ -53,6 +51,11 @@ public class SearchWordsActivity extends Activity
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setListViewAdapter();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +66,7 @@ public class SearchWordsActivity extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_search_word_manage:
                 Intent intent = new Intent(this, SearchWordManageActivity.class);
                 startActivity(intent);
@@ -95,6 +98,13 @@ public class SearchWordsActivity extends Activity
         Intent intent = new Intent(this, SearchTimelineActivity.class);
         intent.putExtra(Const.HASH, adapter.getItem(position));
         startActivity(intent);
+    }
+
+    private void setListViewAdapter() {
+        searchedWordList = searchWordDao.all();
+        originalSearchedWordList = searchWordDao.all();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
+        listView.setAdapter(adapter);
     }
 
     private ArrayList<String> wordListFilter(String query) {
