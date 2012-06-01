@@ -27,7 +27,6 @@ public class SearchWordManageActivity extends Activity
     private ArrayList<String> wordList;
     private ArrayAdapter<String> wordAdapter;
     private EditText searchWordText;
-    private ArrayList<String> originalWordList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,6 @@ public class SearchWordManageActivity extends Activity
 
         searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
         wordList = searchWordDao.all();
-        originalWordList = searchWordDao.all();
         wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
 
         searchButton.setOnClickListener(this);
@@ -66,8 +64,8 @@ public class SearchWordManageActivity extends Activity
                 if (query.length() == 0) {
                     return;
                 }
-                wordList = wordListFilter(query);
-                wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
+                wordAdapter =
+                        new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
                 listView.setAdapter(wordAdapter);
                 hideIME();
                 searchWordText.setText("");
@@ -77,7 +75,7 @@ public class SearchWordManageActivity extends Activity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        final String word = wordList.get(position);
+        final String word = wordAdapter.getItem(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(word + " を削除してもよろしいですか?").setCancelable(false);
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -85,7 +83,6 @@ public class SearchWordManageActivity extends Activity
             public void onClick(DialogInterface dialog, int i) {
                 wordAdapter.remove(word);
                 wordList.remove(word);
-                originalWordList.remove(word);
                 searchWordDao.delete(word);
             }
         });
@@ -103,7 +100,7 @@ public class SearchWordManageActivity extends Activity
             return searchWordDao.all();
         }
         ArrayList<String> list = new ArrayList<String>();
-        for (String s : originalWordList) {
+        for (String s : wordList) {
             if (s.toLowerCase().contains(query.toLowerCase())) {
                 list.add(s);
             }
