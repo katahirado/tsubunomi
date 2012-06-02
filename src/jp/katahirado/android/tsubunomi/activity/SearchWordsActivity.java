@@ -79,9 +79,6 @@ public class SearchWordsActivity extends Activity
             case R.id.searched_word_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchedWordText.getText();
                 String query = builder.toString();
-                if (query.length() == 0) {
-                    return;
-                }
                 adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
                 listView.setAdapter(adapter);
                 hideIME();
@@ -104,7 +101,7 @@ public class SearchWordsActivity extends Activity
     }
 
     private ArrayList<String> wordListFilter(String query) {
-        if (query.equals("*")) {
+        if (query.length() == 0) {
             return searchedWordList;
         }
         ArrayList<String> list = new ArrayList<String>();
