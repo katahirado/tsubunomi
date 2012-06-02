@@ -61,9 +61,6 @@ public class SearchWordManageActivity extends Activity
             case R.id.search_word_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchWordText.getText();
                 String query = builder.toString();
-                if (query.length() == 0) {
-                    return;
-                }
                 wordAdapter =
                         new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
                 listView.setAdapter(wordAdapter);
@@ -96,7 +93,7 @@ public class SearchWordManageActivity extends Activity
     }
 
     private ArrayList<String> wordListFilter(String query) {
-        if (query.equals("*")) {
+        if (query.length() == 0) {
             return searchWordDao.all();
         }
         ArrayList<String> list = new ArrayList<String>();
