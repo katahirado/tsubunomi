@@ -104,8 +104,7 @@ public class UserTimelineActivity extends Activity
                 getUserTimelineTask();
                 break;
             case R.id.menu_user_timeline_users:
-                Intent intent = new Intent(this, UsersActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, UsersActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

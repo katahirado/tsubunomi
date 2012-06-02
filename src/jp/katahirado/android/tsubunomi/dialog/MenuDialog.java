@@ -120,8 +120,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     }
 
     private void startExternalBrowser(String url) {
-        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        activity.startActivity(intent);
+        activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
     protected void getIncludeEntitiesMenu(String screenName, EntitySupport status) {

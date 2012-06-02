@@ -66,8 +66,7 @@ public class UsersActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_screen_name_manage:
-                Intent intent = new Intent(this, ScreenNamesManageActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, ScreenNamesManageActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

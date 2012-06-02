@@ -53,8 +53,7 @@ public class OAuthActivity extends Activity {
             try {
                 AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
                 sharedManager.saveOAuth(accessToken);
-                Intent intent = new Intent(this, TsubunomiActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, TsubunomiActivity.class));
             } catch (TwitterException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             }

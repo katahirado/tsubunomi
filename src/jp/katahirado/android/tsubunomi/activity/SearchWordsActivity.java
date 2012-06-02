@@ -67,8 +67,7 @@ public class SearchWordsActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_search_word_manage:
-                Intent intent = new Intent(this, SearchWordManageActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, SearchWordManageActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

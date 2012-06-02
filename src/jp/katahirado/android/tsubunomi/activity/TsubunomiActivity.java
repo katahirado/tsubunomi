@@ -268,18 +268,15 @@ public class TsubunomiActivity extends Activity {
     }
 
     private void goToUserTimelineActivity() {
-        intent = new Intent(this, UserTimelineActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, UserTimelineActivity.class));
     }
 
     private void goToOAuthActivity() {
-        intent = new Intent(this, OAuthActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, OAuthActivity.class));
     }
 
     private void goToSearchActivity() {
-        intent = new Intent(this, SearchTimelineActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, SearchTimelineActivity.class));
     }
 
     private void attachmentAndCalculateTweetCount(Uri uri) {
