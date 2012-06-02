@@ -35,7 +35,6 @@ public class UserTimelineActivity extends Activity
     private ArrayList<String> doubleScreenNames;
     private SharedManager sharedManager;
     private String query = "";
-    private Intent intent;
     private TweetListAdapter tweetListAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +60,7 @@ public class UserTimelineActivity extends Activity
                 return false;
             }
         });
-        intent = getIntent();
-        String receiveName = intent.getStringExtra(Const.SCREEN_NAME);
+        String receiveName = getIntent().getStringExtra(Const.SCREEN_NAME);
         if (receiveName != null) {
             query = receiveName;
             getUserTimelineTask();
@@ -106,7 +104,7 @@ public class UserTimelineActivity extends Activity
                 getUserTimelineTask();
                 break;
             case R.id.menu_user_timeline_users:
-                intent = new Intent(this, UsersActivity.class);
+                Intent intent = new Intent(this, UsersActivity.class);
                 startActivity(intent);
                 break;
         }
