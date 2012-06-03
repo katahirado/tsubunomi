@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">つぶのみ</string>
     <string name="reply">返信</string>
+    <string name="quote">引用付き返信</string>
     <string name="retweet">公式リツイート</string>
     <string name="send_dm">DirectMessage</string>
     <string name="loading">取得中</string>

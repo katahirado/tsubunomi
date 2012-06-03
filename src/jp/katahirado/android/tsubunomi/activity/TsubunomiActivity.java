@@ -179,8 +179,15 @@ public class TsubunomiActivity extends Activity {
         } else {
             String screenName = intent.getStringExtra(Const.SCREEN_NAME);
             if (screenName != null) {
+                int type = intent.getIntExtra(Const.REPLY_TYPE, 0);
                 inReplyToStatusId = intent.getLongExtra(Const.IN_REPLY_TO_STATUS_ID, 0);
-                setReplyMessage(screenName);
+                switch (type) {
+                    case Const.REPLY:
+                        setReplyMessage(screenName);
+                        break;
+                    case Const.QT:
+                        setQTMessage(screenName);
+                }
             }
         }
     }
@@ -420,6 +427,14 @@ public class TsubunomiActivity extends Activity {
         tweetButton.setText("返信する");
         //位置を調整する
         tweetText.setSelection(mentionString.length());
+    }
+
+    private void setQTMessage(String screenName) {
+        setTitle(getString(R.string.app_name) + " : " + screenName + "に返信");
+        String message = intent.getStringExtra(Const.MESSAGE);
+        CharSequence qtMessage = " QT: @" + screenName + " " + message;
+        tweetText.setText(qtMessage);
+        tweetButton.setText("返信する");
     }
 
     private void tweet() {

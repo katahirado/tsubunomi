@@ -46,7 +46,10 @@ public class TweetDialog extends MenuDialog {
                         screenName = screenName + " @" + mentionName;
                     }
                 }
-                replyToStartActivity(tweet.getId(), screenName, tweet.getText());
+                replyToStartActivity(tweet.getId(), screenName, tweet.getText(), Const.REPLY);
+                break;
+            case QUOTE:
+                replyToStartActivity(tweet.getId(), tweet.getFromUser(), tweet.getText(), Const.QT);
                 break;
             case RETWEET:
                 publicReTweet(tweet.getId());

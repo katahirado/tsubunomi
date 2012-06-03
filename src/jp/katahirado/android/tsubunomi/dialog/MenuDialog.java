@@ -33,8 +33,9 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected TweetManager tweetManager;
     protected String[] menuItems;
     protected static final int REPLY = 0;
-    protected static final int RETWEET = 1;
-    protected static final int SEND_DM = 2;
+    protected static final int QUOTE = 1;
+    protected static final int RETWEET = 2;
+    protected static final int SEND_DM = 3;
     protected SharedManager sharedManager;
     protected ListView menuList;
     private Intent intent;
@@ -60,11 +61,19 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
     }
 
-    protected void replyToStartActivity(long id, String screenName, String message) {
+    protected void replyToStartActivity(long id, String screenName, String message, int type) {
         Intent intent = new Intent(activity, TsubunomiActivity.class);
         intent.putExtra(Const.IN_REPLY_TO_STATUS_ID, id);
         intent.putExtra(Const.SCREEN_NAME, screenName);
         intent.putExtra(Const.MESSAGE, message);
+        switch (type) {
+            case Const.REPLY:
+                intent.putExtra(Const.REPLY_TYPE, Const.REPLY);
+                break;
+            case Const.QT:
+                intent.putExtra(Const.REPLY_TYPE, Const.QT);
+                break;
+        }
         activity.startActivity(intent);
     }
 
@@ -126,6 +135,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected void getIncludeEntitiesMenu(String screenName, EntitySupport status) {
         List<String> resultList = new ArrayList<String>();
         resultList.add(activity.getString(R.string.reply));
+        resultList.add(activity.getString(R.string.quote));
         resultList.add(activity.getString(R.string.retweet));
         resultList.add(activity.getString(R.string.send_dm));
         String atScreenName = "@" + screenName;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
 import twitter4j.Status;
@@ -24,7 +25,7 @@ public class StatusDialog extends MenuDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getIncludeEntitiesMenu(status.getUser().getScreenName(),status);
+        getIncludeEntitiesMenu(status.getUser().getScreenName(), status);
         menuList.setAdapter(new ArrayAdapter<String>(activity.getApplicationContext(),
                 android.R.layout.simple_list_item_1, menuItems));
     }
@@ -34,7 +35,11 @@ public class StatusDialog extends MenuDialog {
         switch (position) {
             case REPLY:
                 String screenName = tweetManager.buildReplyMention(status);
-                replyToStartActivity(status.getId(), screenName, status.getText());
+                replyToStartActivity(status.getId(), screenName, status.getText(), Const.REPLY);
+                break;
+            case QUOTE:
+                replyToStartActivity(status.getId(), status.getUser().getScreenName(),
+                        status.getText(), Const.QT);
                 break;
             case RETWEET:
                 publicReTweet(status.getId());
