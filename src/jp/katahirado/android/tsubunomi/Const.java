@@ -31,4 +31,7 @@ public class Const {
     public static final String SCREEN_NAME = "screen_name";
     public static final String MESSAGE = "message";
     public static final String HASH = "hash";
+    public static final String REPLY_TYPE = "replyType";
+    public static final int REPLY = 0;
+    public static final int QT = 1;
 }
