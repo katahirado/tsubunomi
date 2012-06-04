@@ -54,6 +54,9 @@ public class TweetDialog extends MenuDialog {
             case RETWEET:
                 publicReTweet(tweet.getId());
                 break;
+            case FAVORITE:
+                favorite(tweet.getId(),false);
+                break;
             case SEND_DM:
                 DMtoActivity(tweet.getFromUserName());
                 break;

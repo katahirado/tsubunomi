@@ -19,6 +19,7 @@ import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import jp.katahirado.android.tsubunomi.activity.SendDMActivity;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
+import jp.katahirado.android.tsubunomi.task.FavoriteTask;
 import jp.katahirado.android.tsubunomi.task.RetweetTask;
 import twitter4j.*;
 
@@ -35,7 +36,8 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected static final int REPLY = 0;
     protected static final int QUOTE = 1;
     protected static final int RETWEET = 2;
-    protected static final int SEND_DM = 3;
+    protected static final int FAVORITE = 3;
+    protected static final int SEND_DM = 4;
     protected SharedManager sharedManager;
     protected ListView menuList;
     private Intent intent;
@@ -83,9 +85,8 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 .setPositiveButton("Yes", new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position) {
-                        Twitter twitter = tweetManager.connectTwitter();
                         RetweetTask task = new RetweetTask(activity, id);
-                        task.execute(twitter);
+                        task.execute(tweetManager.connectTwitter());
                     }
                 })
                 .setNegativeButton("No", new OnClickListener() {
@@ -94,6 +95,13 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
 
                     }
                 }).create().show();
+    }
+
+    protected void favorite(long id,boolean isFavorited){
+        if(!isFavorited){
+            FavoriteTask task = new FavoriteTask(activity,id);
+            task.execute(tweetManager.connectTwitter());
+        }
     }
 
     protected void DMtoActivity(String screenName) {
@@ -137,6 +145,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         resultList.add(activity.getString(R.string.reply));
         resultList.add(activity.getString(R.string.quote));
         resultList.add(activity.getString(R.string.retweet));
+        resultList.add(activity.getString(R.string.favorite));
         resultList.add(activity.getString(R.string.send_dm));
         String atScreenName = "@" + screenName;
         resultList.add(atScreenName);

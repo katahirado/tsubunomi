@@ -44,6 +44,9 @@ public class StatusDialog extends MenuDialog {
             case RETWEET:
                 publicReTweet(status.getId());
                 break;
+            case FAVORITE:
+                favorite(status.getId(),status.isFavorited());
+                break;
             case SEND_DM:
                 DMtoActivity(status.getUser().getScreenName());
                 break;
