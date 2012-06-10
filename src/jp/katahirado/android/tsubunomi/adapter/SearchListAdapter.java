@@ -33,17 +33,17 @@ public class SearchListAdapter extends ArrayAdapter<Tweet> {
         View view = convertView;
 
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.tweet_row, null);
+            view = layoutInflater.inflate(R.layout.search_row, null);
         }
 
         Tweet tweet = this.getItem(position);
         if (tweet != null) {
-            screenName = (TextView) view.findViewById(R.id.row_screen_name);
+            screenName = (TextView) view.findViewById(R.id.row_s_screen_name);
             screenName.setText(tweet.getFromUser());
-            createdAt = (TextView) view.findViewById(R.id.row_created_at);
+            createdAt = (TextView) view.findViewById(R.id.row_s_created_at);
             formatDateText = new SimpleDateFormat("yyyy年MM月dd日HH時mm分").format(tweet.getCreatedAt());
             createdAt.setText(" " + formatDateText);
-            tweetText = (TextView) view.findViewById(R.id.row_tweet_text);
+            tweetText = (TextView) view.findViewById(R.id.row_s_tweet_text);
             tweetText.setText(tweet.getText());
         }
         return view;

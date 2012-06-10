@@ -103,6 +103,9 @@ public class UserTimelineActivity extends Activity
             case R.id.menu_user_timeline_refresh:
                 getUserTimelineTask();
                 break;
+            case R.id.menu_user_timeline_to_search_timeline:
+                startActivity(new Intent(this, SearchTimelineActivity.class));
+                break;
             case R.id.menu_user_timeline_users:
                 startActivity(new Intent(this, UsersActivity.class));
                 break;

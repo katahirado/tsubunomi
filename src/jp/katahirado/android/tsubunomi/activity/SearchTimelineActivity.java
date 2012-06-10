@@ -105,6 +105,9 @@ public class SearchTimelineActivity extends Activity
             case R.id.menu_search_timeline_refresh:
                 getSearchTimelineTask();
                 break;
+            case R.id.menu_search_timeline_to_user_timeline:
+                startActivity(new Intent(this, UserTimelineActivity.class));
+                break;
             case R.id.menu_search_word_list:
                 startActivity(new Intent(this, SearchWordsActivity.class));
                 break;

@@ -4,6 +4,9 @@
     <item android:id="@+id/menu_user_timeline_refresh"
           android:icon="@drawable/ic_menu_refresh"
           android:title="Reload"/>
+    <item android:id="@+id/menu_user_timeline_to_search_timeline"
+          android:title="Search"
+          android:icon="@android:drawable/ic_menu_search"/>
     <item android:id="@+id/menu_user_timeline_users"
           android:icon="@drawable/ic_menu_friendslist"
           android:title="List"/>
