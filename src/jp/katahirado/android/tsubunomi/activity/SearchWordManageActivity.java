@@ -39,7 +39,7 @@ public class SearchWordManageActivity extends Activity
 
         searchWordDao = new SearchWordDao(new DBOpenHelper(this).getWritableDatabase());
         wordList = searchWordDao.all();
-        wordAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordList);
+        wordAdapter = new ArrayAdapter<String>(this, R.layout.search_word_row, wordList);
 
         searchButton.setOnClickListener(this);
         listView.setAdapter(wordAdapter);
@@ -62,7 +62,7 @@ public class SearchWordManageActivity extends Activity
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchWordText.getText();
                 String query = builder.toString();
                 wordAdapter =
-                        new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
+                        new ArrayAdapter<String>(this, R.layout.search_word_row, wordListFilter(query));
                 listView.setAdapter(wordAdapter);
                 hideIME();
                 searchWordText.setText("");

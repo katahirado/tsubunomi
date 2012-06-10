@@ -79,7 +79,7 @@ public class SearchWordsActivity extends Activity
             case R.id.searched_word_search_button:
                 SpannableStringBuilder builder = (SpannableStringBuilder) searchedWordText.getText();
                 String query = builder.toString();
-                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, wordListFilter(query));
+                adapter = new ArrayAdapter<String>(this, R.layout.search_word_row, wordListFilter(query));
                 listView.setAdapter(adapter);
                 hideIME();
                 searchedWordText.setText("");
@@ -96,7 +96,7 @@ public class SearchWordsActivity extends Activity
 
     private void setListViewAdapter() {
         searchedWordList = searchWordDao.all();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchedWordList);
+        adapter = new ArrayAdapter<String>(this, R.layout.search_word_row, searchedWordList);
         listView.setAdapter(adapter);
     }
 
