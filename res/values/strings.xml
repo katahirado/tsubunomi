@@ -5,7 +5,9 @@
     <string name="quote">Quote</string>
     <string name="retweet">ReTweet</string>
     <string name="send_dm">DirectMessage</string>
+    <string name="create_friendships">Follow</string>
     <string name="favorite">Favorite</string>
     <string name="loading">Loading...</string>
     <string name="posting">Posting...</string>
+    <string name="following">Following...</string>
 </resources>

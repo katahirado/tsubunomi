@@ -19,6 +19,7 @@ import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import jp.katahirado.android.tsubunomi.activity.SendDMActivity;
 import jp.katahirado.android.tsubunomi.activity.TsubunomiActivity;
 import jp.katahirado.android.tsubunomi.activity.UserTimelineActivity;
+import jp.katahirado.android.tsubunomi.task.CreateFriendshipsTask;
 import jp.katahirado.android.tsubunomi.task.FavoriteTask;
 import jp.katahirado.android.tsubunomi.task.RetweetTask;
 import twitter4j.*;
@@ -38,6 +39,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
     protected static final int RETWEET = 2;
     protected static final int FAVORITE = 3;
     protected static final int SEND_DM = 4;
+    protected static final int CREATE_FRIENDSHIPS = 5;
     protected SharedManager sharedManager;
     protected ListView menuList;
     private Intent intent;
@@ -97,17 +99,34 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
                 }).create().show();
     }
 
-    protected void favorite(long id,boolean isFavorited){
-        if(!isFavorited){
-            FavoriteTask task = new FavoriteTask(activity,id);
+    protected void favorite(long id, boolean isFavorited) {
+        if (!isFavorited) {
+            FavoriteTask task = new FavoriteTask(activity, id);
             task.execute(tweetManager.connectTwitter());
         }
     }
 
-    protected void DMtoActivity(String screenName) {
+    protected void dmToActivity(String screenName) {
         intent = new Intent(activity, SendDMActivity.class);
         intent.putExtra(Const.SCREEN_NAME, screenName);
         activity.startActivity(intent);
+    }
+
+    protected void createFriendships(final long id) {
+        new AlertDialog.Builder(activity)
+                .setMessage("フォローしますか？")
+                .setPositiveButton("Yes", new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position) {
+                        CreateFriendshipsTask task = new CreateFriendshipsTask(activity, id);
+                        task.execute(tweetManager.connectTwitter());
+                    }
+                })
+                .setNegativeButton("No", new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position) {
+                    }
+                }).create().show();
     }
 
     protected void entityAction(int position) {
@@ -147,6 +166,7 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         resultList.add(activity.getString(R.string.retweet));
         resultList.add(activity.getString(R.string.favorite));
         resultList.add(activity.getString(R.string.send_dm));
+        resultList.add(activity.getString(R.string.create_friendships));
         String atScreenName = "@" + screenName;
         resultList.add(atScreenName);
         entitiesDictionary = new HashMap<String, String>();

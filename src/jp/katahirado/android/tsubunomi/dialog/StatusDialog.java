@@ -48,7 +48,10 @@ public class StatusDialog extends MenuDialog {
                 favorite(status.getId(),status.isFavorited());
                 break;
             case SEND_DM:
-                DMtoActivity(status.getUser().getScreenName());
+                dmToActivity(status.getUser().getScreenName());
+                break;
+            case CREATE_FRIENDSHIPS:
+                createFriendships(status.getUser().getId());
                 break;
             default:
                 entityAction(position);

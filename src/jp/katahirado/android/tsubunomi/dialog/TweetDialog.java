@@ -58,7 +58,10 @@ public class TweetDialog extends MenuDialog {
                 favorite(tweet.getId(),false);
                 break;
             case SEND_DM:
-                DMtoActivity(tweet.getFromUserName());
+                dmToActivity(tweet.getFromUserName());
+                break;
+            case CREATE_FRIENDSHIPS:
+                createFriendships(tweet.getFromUserId());
                 break;
             default:
                 entityAction(position);
