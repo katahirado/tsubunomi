@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import jp.katahirado.android.tsubunomi.R;
+import jp.katahirado.android.tsubunomi.TweetManager;
 import twitter4j.Status;
 
 import java.text.SimpleDateFormat;
@@ -40,12 +41,12 @@ public class TweetListAdapter extends ArrayAdapter<Status> {
         Status status = this.getItem(position);
         if (status != null) {
             screenName = (TextView) view.findViewById(R.id.row_screen_name);
-            screenName.setText(status.getUser().getScreenName());
+            screenName.setText(TweetManager.getTweetName(status));
             createdAt = (TextView) view.findViewById(R.id.row_created_at);
-            formatDateText = new SimpleDateFormat("yyyy年MM月dd日HH時mm分").format(status.getCreatedAt());
+            formatDateText = new SimpleDateFormat("yyyy年MM月dd日HH時mm分").format(TweetManager.getTweetDate(status));
             createdAt.setText(" " + formatDateText);
             tweetText = (TextView) view.findViewById(R.id.row_tweet_text);
-            tweetText.setText(status.getText());
+            tweetText.setText(TweetManager.getTweetText(status));
         }
         return view;
     }

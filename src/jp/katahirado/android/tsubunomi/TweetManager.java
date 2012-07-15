@@ -7,6 +7,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.UserMentionEntity;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class TweetManager {
 
     public String buildReplyMention(Status status) {
         String result;
-        String tweetUserName = status.getUser().getScreenName();
+        String tweetUserName = getTweetName(status);
         result = tweetUserName;
         String currentScreenName = sharedManager.getPrefString(Const.PREF_SCREEN_NAME, "");
         UserMentionEntity[] userMentions = status.getUserMentionEntities();
@@ -75,5 +76,45 @@ public class TweetManager {
             }
         }
         return result;
+    }
+
+    public static long getTweetId(Status status){
+        long tweetId;
+        if(status.getRetweetedStatus()!=null){
+            tweetId=status.getRetweetedStatus().getId();
+        }else{
+            tweetId=status.getId();
+        }
+        return tweetId;
+    }
+
+    public static String getTweetText(Status status){
+        String tweetText;
+        if(status.getRetweetedStatus()!=null){
+            tweetText=status.getRetweetedStatus().getText();
+        }else{
+            tweetText=status.getText();
+        }
+        return tweetText;
+    }
+
+    public static String getTweetName(Status status){
+        String tweetName;
+        if(status.getRetweetedStatus()!=null){
+            tweetName = status.getRetweetedStatus().getUser().getScreenName();
+        }else{
+            tweetName = status.getUser().getScreenName();
+        }
+        return tweetName;
+    }
+
+    public static Date getTweetDate(Status status){
+        Date createDate;
+        if(status.getRetweetedStatus()!=null){
+            createDate = status.getRetweetedStatus().getCreatedAt();
+        }else{
+            createDate = status.getCreatedAt();
+        }
+        return createDate;
     }
 }

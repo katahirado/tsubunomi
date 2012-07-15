@@ -35,11 +35,12 @@ public class StatusDialog extends MenuDialog {
         switch (position) {
             case REPLY:
                 String screenName = tweetManager.buildReplyMention(status);
-                replyToStartActivity(status.getId(), screenName, status.getText(), Const.REPLY);
+                replyToStartActivity(TweetManager.getTweetId(status), screenName,
+                        TweetManager.getTweetText(status), Const.REPLY);
                 break;
             case QUOTE:
-                replyToStartActivity(status.getId(), status.getUser().getScreenName(),
-                        status.getText(), Const.QT);
+                replyToStartActivity(TweetManager.getTweetId(status), TweetManager.getTweetName(status),
+                        TweetManager.getTweetText(status), Const.QT);
                 break;
             case RETWEET:
                 publicReTweet(status.getId());
@@ -51,7 +52,7 @@ public class StatusDialog extends MenuDialog {
                 dmToActivity(status.getUser().getScreenName());
                 break;
             case CREATE_FRIENDSHIPS:
-                createFriendships(status.getUser().getId());
+                createFriendships(TweetManager.getTweetId(status));
                 break;
             default:
                 entityAction(position);
