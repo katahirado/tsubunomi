@@ -15,12 +15,12 @@ import twitter4j.User;
  */
 public class CreateFriendshipsTask extends AsyncTask<Twitter, Integer, User> {
     private Activity activity;
-    private long userId;
+    private String screenName;
     private ProgressDialog dialog;
 
-    public CreateFriendshipsTask(Activity activity, long id) {
+    public CreateFriendshipsTask(Activity activity, String screenName) {
         this.activity = activity;
-        this.userId = id;
+        this.screenName = screenName;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CreateFriendshipsTask extends AsyncTask<Twitter, Integer, User> {
     protected User doInBackground(Twitter... twitters) {
         User resultUser;
         try {
-            resultUser = twitters[0].createFriendship(userId);
+            resultUser = twitters[0].createFriendship(screenName);
         } catch (TwitterException e) {
             resultUser = null;
         }
