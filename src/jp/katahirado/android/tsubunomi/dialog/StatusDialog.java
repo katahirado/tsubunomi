@@ -52,7 +52,7 @@ public class StatusDialog extends MenuDialog {
                 dmToActivity(status.getUser().getScreenName());
                 break;
             case CREATE_FRIENDSHIPS:
-                createFriendships(TweetManager.getTweetId(status));
+                createFriendships(status.getUser().getScreenName());
                 break;
             default:
                 entityAction(position);

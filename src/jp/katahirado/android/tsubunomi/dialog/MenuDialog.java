@@ -112,13 +112,13 @@ public class MenuDialog extends Dialog implements AdapterView.OnItemClickListene
         activity.startActivity(intent);
     }
 
-    protected void createFriendships(final long id) {
+    protected void createFriendships(final String screenName) {
         new AlertDialog.Builder(activity)
                 .setMessage("フォローしますか？")
                 .setPositiveButton("Yes", new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position) {
-                        CreateFriendshipsTask task = new CreateFriendshipsTask(activity, id);
+                        CreateFriendshipsTask task = new CreateFriendshipsTask(activity, screenName);
                         task.execute(tweetManager.connectTwitter());
                     }
                 })
