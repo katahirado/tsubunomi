@@ -3,12 +3,11 @@ package jp.katahirado.android.tsubunomi.task;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import jp.katahirado.android.tsubunomi.R;
-import jp.katahirado.android.tsubunomi.adapter.SearchListAdapter;
 import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
+import jp.katahirado.android.tsubunomi.adapter.TweetListAdapter;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 
 import java.util.List;
@@ -17,17 +16,17 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * Author: yuichi_katahira
  */
-public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdapter> {
+public class SearchTimelineTask extends AsyncTask<Query, Integer, TweetListAdapter> {
 
     private TweetManager tweetManager;
-    private SearchListAdapter searchListAdapter;
+    private TweetListAdapter tweetListAdapter;
     private SearchTimelineActivity searchActivity;
     private ProgressDialog dialog;
     private String queryString;
 
-    public SearchTimelineTask(SearchTimelineActivity activity, TweetManager manager, SearchListAdapter adapter) {
+    public SearchTimelineTask(SearchTimelineActivity activity, TweetManager manager, TweetListAdapter adapter) {
         searchActivity = activity;
-        searchListAdapter = adapter;
+        tweetListAdapter = adapter;
         tweetManager = manager;
     }
 
@@ -40,7 +39,7 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
     }
 
     @Override
-    protected SearchListAdapter doInBackground(Query... query) {
+    protected TweetListAdapter doInBackground(Query... query) {
         List<twitter4j.Status> status = null;
         try {
             QueryResult queryResult = tweetManager.connectTwitter().search(query[0]);
@@ -51,15 +50,15 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
         }
         if (status != null) {
             for (twitter4j.Status tweet : status) {
-                searchListAdapter.add(tweet);
+                tweetListAdapter.add(tweet);
             }
         }
-        return searchListAdapter;
+        return tweetListAdapter;
     }
 
     @Override
-    protected void onPostExecute(SearchListAdapter adapter) {
+    protected void onPostExecute(TweetListAdapter adapter) {
         dialog.dismiss();
-        searchActivity.setSearchListAdapter(adapter,queryString);
+        searchActivity.setSearchListAdapter(adapter, queryString);
     }
 }

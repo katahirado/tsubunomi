@@ -12,7 +12,7 @@ import jp.katahirado.android.tsubunomi.Const;
 import jp.katahirado.android.tsubunomi.R;
 import jp.katahirado.android.tsubunomi.SharedManager;
 import jp.katahirado.android.tsubunomi.TweetManager;
-import jp.katahirado.android.tsubunomi.adapter.SearchListAdapter;
+import jp.katahirado.android.tsubunomi.adapter.TweetListAdapter;
 import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
 import jp.katahirado.android.tsubunomi.dialog.StatusDialog;
@@ -36,7 +36,7 @@ public class SearchTimelineActivity extends Activity
     private String query = "";
     private SharedManager sharedManager;
     private SearchWordDao searchWordDao;
-    private SearchListAdapter searchListAdapter;
+    private TweetListAdapter tweetListAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class SearchTimelineActivity extends Activity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Status status = searchListAdapter.getItem(position);
+        Status status = tweetListAdapter.getItem(position);
         new StatusDialog(this, sharedManager, tweetManager, status).show();
     }
 
@@ -132,8 +132,8 @@ public class SearchTimelineActivity extends Activity
             searchWordDao.insert(query);
         }
         ArrayList<Status> statusList = new ArrayList<Status>();
-        SearchListAdapter searchListAdapter = new SearchListAdapter(this, statusList);
-        SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
+        TweetListAdapter listAdapter = new TweetListAdapter(this, statusList);
+        SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, listAdapter);
         task.execute(buildQuery(query));
     }
 
@@ -151,9 +151,9 @@ public class SearchTimelineActivity extends Activity
         return q;
     }
 
-    public void setSearchListAdapter(SearchListAdapter adapter, String q) {
-        searchListAdapter = adapter;
-        listView.setAdapter(searchListAdapter);
+    public void setSearchListAdapter(TweetListAdapter adapter, String q) {
+        tweetListAdapter = adapter;
+        listView.setAdapter(tweetListAdapter);
         hideIME();
         searchText.setText("");
         listView.requestFocus();
