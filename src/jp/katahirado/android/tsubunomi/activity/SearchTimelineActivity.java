@@ -15,7 +15,7 @@ import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.adapter.SearchListAdapter;
 import jp.katahirado.android.tsubunomi.dao.DBOpenHelper;
 import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
-import jp.katahirado.android.tsubunomi.dialog.TweetDialog;
+import jp.katahirado.android.tsubunomi.dialog.StatusDialog;
 import jp.katahirado.android.tsubunomi.task.SearchTimelineTask;
 import twitter4j.Query;
 import twitter4j.Status;
@@ -78,7 +78,7 @@ public class SearchTimelineActivity extends Activity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Status status = searchListAdapter.getItem(position);
-        new TweetDialog(this, sharedManager, tweetManager, status).show();
+        new StatusDialog(this, sharedManager, tweetManager, status).show();
     }
 
     @Override
