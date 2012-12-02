@@ -8,7 +8,7 @@ import jp.katahirado.android.tsubunomi.TweetManager;
 import jp.katahirado.android.tsubunomi.activity.SearchTimelineActivity;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Tweet;
+import twitter4j.Status;
 import twitter4j.TwitterException;
 
 import java.util.List;
@@ -41,16 +41,16 @@ public class SearchTimelineTask extends AsyncTask<Query, Integer, SearchListAdap
 
     @Override
     protected SearchListAdapter doInBackground(Query... query) {
-        List<Tweet> tweets = null;
+        List<twitter4j.Status> status = null;
         try {
             QueryResult queryResult = tweetManager.connectTwitter().search(query[0]);
             queryString = query[0].getQuery();
-            tweets = queryResult.getTweets();
+            status = queryResult.getTweets();
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        if (tweets != null) {
-            for (Tweet tweet : tweets) {
+        if (status != null) {
+            for (twitter4j.Status tweet : status) {
                 searchListAdapter.add(tweet);
             }
         }

@@ -18,7 +18,7 @@ import jp.katahirado.android.tsubunomi.dao.SearchWordDao;
 import jp.katahirado.android.tsubunomi.dialog.TweetDialog;
 import jp.katahirado.android.tsubunomi.task.SearchTimelineTask;
 import twitter4j.Query;
-import twitter4j.Tweet;
+import twitter4j.Status;
 
 import java.util.ArrayList;
 
@@ -77,8 +77,8 @@ public class SearchTimelineActivity extends Activity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Tweet tweet = searchListAdapter.getItem(position);
-        new TweetDialog(this, sharedManager, tweetManager, tweet).show();
+        Status status = searchListAdapter.getItem(position);
+        new TweetDialog(this, sharedManager, tweetManager, status).show();
     }
 
     @Override
@@ -131,8 +131,8 @@ public class SearchTimelineActivity extends Activity
             doubleWordList.add(query);
             searchWordDao.insert(query);
         }
-        ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
-        SearchListAdapter searchListAdapter = new SearchListAdapter(this, tweetList);
+        ArrayList<Status> statusList = new ArrayList<Status>();
+        SearchListAdapter searchListAdapter = new SearchListAdapter(this, statusList);
         SearchTimelineTask task = new SearchTimelineTask(this, tweetManager, searchListAdapter);
         task.execute(buildQuery(query));
     }
